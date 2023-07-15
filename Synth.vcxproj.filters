@@ -39,6 +39,12 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PatchFileLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine.h">
@@ -60,6 +66,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PatchFileLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Patch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tokenizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

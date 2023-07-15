@@ -40,7 +40,7 @@ Block* Algorithm::create_rec(std::string substructure, std::vector<Block*>* bloc
 		{
 			if (substructure[i] != '(')
 			{
-				Logger::log(Logger::Level::ERROR, "Algorithm creation syntax error. Expected \'(\' but got " + substructure[i] + '\n');
+				Logger::log(Logger::Level::ERROR, "Algorithm creation syntax error. Expected \'(\' but got " + substructure[i]);
 				*charsRead = -1;
 				return nullptr;
 			}

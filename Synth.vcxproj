@@ -131,8 +131,10 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Algorithm.cpp" />
+    <ClCompile Include="PatchFileLoader.cpp" />
     <ClCompile Include="SerialBlock.cpp" />
     <ClCompile Include="SineOscillator.cpp" />
+    <ClCompile Include="Tokenizer.cpp" />
     <ClCompile Include="Voice.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,8 +142,11 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Algorithm.h" />
+    <ClInclude Include="Patch.h" />
+    <ClInclude Include="PatchFileLoader.h" />
     <ClInclude Include="SerialBlock.h" />
     <ClInclude Include="SineOscillator.h" />
+    <ClInclude Include="Tokenizer.h" />
     <ClInclude Include="Voice.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

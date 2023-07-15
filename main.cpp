@@ -1,6 +1,8 @@
 #include "SerialBlock.h"
 #include "Algorithm.h"
 #include "SineOscillator.h"
+#include "PatchFileLoader.h"
+#include "Patch.h"
 
 #include <iostream>
 
@@ -17,6 +19,8 @@ int main(int argc, char** argv)
 	}
 
 	short audioOut[BUF_SIZE];
+
+	Patch* p = PatchFileLoader::loadPatchFile("C:/Users/PC/Desktop/test.patch");
 
 	Algorithm op;
 	op.create("c(1,2,3)");

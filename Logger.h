@@ -13,6 +13,7 @@ public:
 		CRITICAL
 	};
 
-	static void log(Level level, std::string message);
+	static void log(Level level, char* message);
+	static void log(Level level, const char* message);
 };
 
