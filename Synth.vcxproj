@@ -130,7 +130,7 @@
     <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Operator.cpp" />
+    <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="SerialBlock.cpp" />
     <ClCompile Include="SineOscillator.cpp" />
     <ClCompile Include="Voice.cpp" />
@@ -139,7 +139,7 @@
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="Operator.h" />
+    <ClInclude Include="Algorithm.h" />
     <ClInclude Include="SerialBlock.h" />
     <ClInclude Include="SineOscillator.h" />
     <ClInclude Include="Voice.h" />

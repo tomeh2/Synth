@@ -5,9 +5,9 @@
 class SineOscillator : public Block
 {
 private:
-	float frequency, amplitude, time;
+	float frequency, modIndex, amplitude, time;
 public:
-	SineOscillator(float frequency, float amplitude);
-	void process(float* inBuffer, float* outBuffer, unsigned int bufSize);
+	SineOscillator(float frequency, float modIndex, float amplitude);
+	void process(float* buffer, unsigned int bufSize);
 };
 

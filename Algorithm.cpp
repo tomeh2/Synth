@@ -1,4 +1,4 @@
-#include "Operator.h"
+#include "Algorithm.h"
 #include "Logger.h"
 #include "SerialBlock.h"
 #include "SineOscillator.h"
@@ -6,27 +6,27 @@
 #include <vector>
 #include <queue>
 
-void Operator::process(float* inBuffer, float* outBuffer, unsigned int bufSize)
+void Algorithm::process(float* buffer, unsigned int bufSize)
 {
-	this->operatorBlock->process(inBuffer, outBuffer, bufSize);
+	this->algorithmBlock->process(buffer, bufSize);
 }
 
-void Operator::create(std::string structure)
+void Algorithm::create(std::string structure)
 {
 	std::vector<Block*> blocks;
 
-	blocks.push_back(new SineOscillator(400.f, 1.f));
-	blocks.push_back(new SineOscillator(10.f, 1.f));
-	blocks.push_back(new SineOscillator(5.f, 1.f));
-	blocks.push_back(new SineOscillator(2.f, 1.f));
+	blocks.push_back(new SineOscillator(400.f, 200.f, 1.f));
+	blocks.push_back(new SineOscillator(100.f, 50.f, 1.f));
+	blocks.push_back(new SineOscillator(50.f, 0.f, 1.f));
+	blocks.push_back(new SineOscillator(200.f, 0.f, 1.f));
 
 	int charsRead = 0;
 	Block* block = nullptr;
 	block = create_rec(structure, &blocks, &charsRead);
-	this->operatorBlock = block;
+	this->algorithmBlock = block;
 }
 
-Block* Operator::create_rec(std::string substructure, std::vector<Block*>* blocks, int* charsRead)
+Block* Algorithm::create_rec(std::string substructure, std::vector<Block*>* blocks, int* charsRead)
 {
 	int state = 0;
 	int currOperatorNum = 0;
@@ -40,7 +40,7 @@ Block* Operator::create_rec(std::string substructure, std::vector<Block*>* block
 		{
 			if (substructure[i] != '(')
 			{
-				Logger::log(Logger::Level::ERROR, "Operator creation syntax error. Expected \'(\' but got " + substructure[i] + '\n');
+				Logger::log(Logger::Level::ERROR, "Algorithm creation syntax error. Expected \'(\' but got " + substructure[i] + '\n');
 				*charsRead = -1;
 				return nullptr;
 			}
@@ -91,7 +91,7 @@ Block* Operator::create_rec(std::string substructure, std::vector<Block*>* block
 			}
 			else
 			{
-				Logger::log(Logger::Level::ERROR, "Operator creation syntax error.");
+				Logger::log(Logger::Level::ERROR, "Algorithm creation syntax error.");
 			}
 		}
 	}

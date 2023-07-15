@@ -1,16 +1,14 @@
 #include "SerialBlock.h"
 
-void SerialBlock::process(float* inBuffer, float* outBuffer, unsigned int bufSize)
+void SerialBlock::process(float* buffer, unsigned int bufSize)
 {
-	float* tempBuf = inBuffer;
 	for (std::vector<Block*>::iterator it = this->blocks.begin(); it != this->blocks.end(); it++)
 	{
-		(*it)->process(tempBuf, outBuffer, bufSize);
-		tempBuf = outBuffer;
+		(*it)->process(buffer, bufSize);
 	}
 }
 
 void SerialBlock::insert(Block* block)
 {
-	this->blocks.push_back(block);
+	this->blocks.insert(this->blocks.begin(), block);
 }

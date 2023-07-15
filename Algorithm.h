@@ -5,13 +5,13 @@
 #include <string>
 #include <vector>
 
-class Operator : public Block
+class Algorithm : public Block
 {
 private:
-	Block* operatorBlock;
+	Block* algorithmBlock = nullptr;
 	
 	Block* create_rec(std::string substructure, std::vector<Block*>* blocks, int* block);
 public:
-	void process(float* inBuffer, float* outBuffer, unsigned int bufSize);
+	void process(float* buffer, unsigned int bufSize);
 	void create(std::string structure);
 };

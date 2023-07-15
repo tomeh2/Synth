@@ -10,5 +10,5 @@ private:
 	std::vector<Block*> blocks;
 public:
 	void insert(Block* block);
-	void process(float* inBuffer, float* outBuffer, unsigned int bufSize);
+	void process(float* buffer, unsigned int bufSize);
 };
