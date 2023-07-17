@@ -19,6 +19,6 @@ private:
 	bool isAlpha(char c);
 	int getNextToken(FILE* file, Token* t);
 public:
-	void tokenizeFile(FILE* file, std::vector<std::string>* tokens);
+	void tokenizeFile(FILE* file, std::vector<Token*>* tokens);
 };
 

@@ -2,6 +2,7 @@ C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp;C:\Users\PC\source\repos\Sy
 C:\Users\PC\source\repos\Synth\Synth\Logger.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Logger.obj
 C:\Users\PC\source\repos\Synth\Synth\main.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\main.obj
 C:\Users\PC\source\repos\Synth\Synth\Algorithm.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Algorithm.obj
+C:\Users\PC\source\repos\Synth\Synth\Parser.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Parser.obj
 C:\Users\PC\source\repos\Synth\Synth\PatchFileLoader.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\PatchFileLoader.obj
 C:\Users\PC\source\repos\Synth\Synth\SerialBlock.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\SerialBlock.obj
 C:\Users\PC\source\repos\Synth\Synth\SineOscillator.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\SineOscillator.obj

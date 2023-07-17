@@ -1,6 +1,7 @@
 #include "PatchFileLoader.h"
 #include "Logger.h"
 #include "Tokenizer.h"
+#include "Parser.h"
 
 void PatchFileLoader::tokenizeFile(FILE* file, std::vector<std::string>* tokens)
 {
@@ -22,14 +23,33 @@ Patch* PatchFileLoader::loadPatchFile(std::string fileLocation)
 	}
 	Logger::log(Logger::INFO, ("Opened patch file " + fileLocation).c_str());
 
-	std::vector<std::string> tokens;
+	std::vector<Token*> tokens;
 	Tokenizer t;
 	t.tokenizeFile(file, &tokens);
 
-	for (std::vector<std::string>::iterator it = tokens.begin(); it != tokens.end(); it++)
+#ifdef _DEBUG
+	for (auto it = tokens.begin(); it != tokens.end(); it++)
 	{
-		printf("%s\n", it->c_str());
+		if ((*it)->getType() == Token::NUMBER_INT)
+			printf("Type: INT | Val: %d\n", (*it)->getIntData());
+		else if ((*it)->getType() == Token::NUMBER_FLOAT)
+			printf("Type: FLOAT | Val: %f\n", (*it)->getFloatData());
+		else if ((*it)->getType() == Token::STRING)
+			printf("Type: STR | Val: %s\n", (*it)->getStrData());
+		else if ((*it)->getType() == Token::CURLY_START)
+			printf("Type: CURLY_START \n");
+		else if ((*it)->getType() == Token::CURLY_END)
+			printf("Type: CURLY_END \n");
+		else if ((*it)->getType() == Token::EQUALS)
+			printf("Type: EQUALS \n");
+		else if ((*it)->getType() == Token::SEMICOLON)
+			printf("Type: SEMICOLON \n");
 	}
+#endif
+	std::map<std::string, Patch*> map;
+
+	Parser::parse(&tokens, &map);
+	map.at("123")->printInfo();
 
 	return nullptr;
 }

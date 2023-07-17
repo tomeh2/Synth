@@ -44,7 +44,7 @@ public:
 
 	int getIntData() { return data.intData; }
 	float getFloatData() { return data.floatData; }
-	std::string getStrData() { return data.strData; }
+	char* getStrData() { return data.strData; }
 	TokenType getType() { return tokenType; }
 	void setType(TokenType type) { tokenType = type; }
 	void setIntData(int intData) { data.intData = intData; }

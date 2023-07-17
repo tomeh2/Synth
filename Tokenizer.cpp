@@ -20,7 +20,7 @@ bool Tokenizer::isNumeric(char c)
 
 bool Tokenizer::isAlpha(char c)
 {
-	return c >= 65 && c <= 90 || c >= 97 && c <= 122 ? true : false;
+	return (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c == '_' || c == '(' || c == ')' || c == ',') ? true : false;
 }
 
 
@@ -96,7 +96,10 @@ int Tokenizer::getNextToken(FILE* file, Token* t)
 	else if (t->getType() == Token::NUMBER_FLOAT)
 		t->setFloatData(atof(tokenVal.c_str()));
 	else if (t->getType() == Token::STRING)
+	{
+		tokenVal.insert(tokenVal.end(), '\0');
 		t->setStringData(tokenVal);
+	}
 
 	if (feof(file))
 		return -1;
@@ -104,29 +107,18 @@ int Tokenizer::getNextToken(FILE* file, Token* t)
 		return 0;
 }
 
-void Tokenizer::tokenizeFile(FILE* file, std::vector<std::string>* tokens)
+void Tokenizer::tokenizeFile(FILE* file, std::vector<Token*>* tokens)
 {
 	char readChar;
 
 	std::string token;
-	Token t(Token::NULLTOKEN);
-	while (getNextToken(file, &t) != -1)
+	Token* t = new Token(Token::NULLTOKEN);
+	while (getNextToken(file, t) != -1)
 	{
-		if (t.getType() == Token::NUMBER_INT)
-			printf("Type: INT | Val: %d\n", t.getIntData());
-		else if (t.getType() == Token::NUMBER_FLOAT)
-			printf("Type: FLOAT | Val: %f\n", t.getFloatData());
-		else if (t.getType() == Token::STRING)
-			printf("Type: STR | Val: %s\n", t.getStrData().c_str());
-		else if (t.getType() == Token::CURLY_START)
-			printf("Type: CURLY_START \n");
-		else if (t.getType() == Token::CURLY_END)
-			printf("Type: CURLY_END \n");
-		else if (t.getType() == Token::EQUALS)
-			printf("Type: EQUALS \n");
-		else if (t.getType() == Token::SEMICOLON)
-			printf("Type: SEMICOLON \n");
-		else if (t.getType() == Token::NULLTOKEN)
-			printf("Type: NULLTOKEN \n");
+		if (t->getType() == Token::NULLTOKEN)
+			delete t;
+		else
+			tokens->insert(tokens->end(), t);
+		t = new Token(Token::NULLTOKEN);
 	}
 }
