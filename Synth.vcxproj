@@ -146,6 +146,7 @@
     <ClInclude Include="PatchFileLoader.h" />
     <ClInclude Include="SerialBlock.h" />
     <ClInclude Include="SineOscillator.h" />
+    <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />
     <ClInclude Include="Voice.h" />
   </ItemGroup>
