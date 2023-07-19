@@ -28,7 +28,10 @@ public:
 
 	std::string getPatchParameter(std::string paramName)
 	{
-		return params.at(paramName);
+		if (params.find(paramName) == params.end())
+			return "";
+		else
+			return params.at(paramName);
 	}
 
 	void addOperator()
@@ -48,7 +51,10 @@ public:
 	{
 		if (operatorId < operators.size())
 		{
-			return operators.at(operatorId)->params.at(paramName);
+			if (operators.at(operatorId)->params.find(paramName) == operators.at(operatorId)->params.end())
+				return "";
+			else
+				return operators.at(operatorId)->params.at(paramName);
 		}
 	}
 

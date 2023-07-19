@@ -10,9 +10,9 @@ int Parser::accept(std::vector<Token*>* tokens, Token::TokenType expectedType)
 {
     if (currToken->getType() == expectedType)
     {
+        currTokenIndex++;
         if (currTokenIndex < tokens->size())
         {
-            currTokenIndex++;
             currToken = tokens->at(currTokenIndex);
         }
         return 1;
@@ -24,10 +24,13 @@ int Parser::accept(std::vector<Token*>* tokens, Token::TokenType expectedType, s
 {
     int retVal = 0;
     retVal = ((currToken->getType() == expectedType) && (value.compare(currToken->getData()) == 0)) ? 1 : 0;
-    currTokenIndex++;
+    
 
-    if (currTokenIndex < tokens->size())
+    if (retVal == 1 && currTokenIndex < tokens->size())
+    {
+        currTokenIndex++;
         currToken = tokens->at(currTokenIndex);
+    }
 
     return retVal;
 }
@@ -71,7 +74,10 @@ int Parser::blockPatch(std::vector<Token*>* tokens, std::map<std::string, Patch*
         Logger::log(Logger::INFO, "Created new operator data object");
     }
 
-    patches->insert(std::pair<std::string, Patch*>("123", p));
+    if (p->getPatchParameter("name") != "")
+        patches->insert(std::pair<std::string, Patch*>(p->getPatchParameter("name"), p));
+    else
+        Logger::log(Logger::ERROR, "Ignoring a loaded patch object without a name");
 
     if (!accept(tokens, Token::CURLY_END))
     {
@@ -160,10 +166,10 @@ int Parser::parse(std::vector<Token*>* tokens, std::map<std::string, Patch*>* pa
 {
     currTokenIndex = 0;
     currToken = tokens->at(currTokenIndex);
-    currOperatorIndex = 0;
-
+    
     while (currTokenIndex < tokens->size())
     {
+        currOperatorIndex = 0;
         int errCode = blockPatch(tokens, patches);
 
         if (errCode != 0)

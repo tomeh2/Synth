@@ -11,7 +11,7 @@ void PatchFileLoader::tokenizeFile(FILE* file, std::vector<std::string>* tokens)
 	}
 }
 
-Patch* PatchFileLoader::loadPatchFile(std::string fileLocation)
+int PatchFileLoader::loadPatchFile(std::string fileLocation, std::map<std::string, Patch*>* patchMap)
 {
 	FILE* file;
 	file = fopen(fileLocation.c_str(), "r");
@@ -19,7 +19,7 @@ Patch* PatchFileLoader::loadPatchFile(std::string fileLocation)
 	if (file == nullptr)
 	{
 		Logger::log(Logger::ERROR, ("Could not open file " + fileLocation).c_str());
-		return nullptr;
+		return -1;
 	}
 	Logger::log(Logger::INFO, ("Opened patch file " + fileLocation).c_str());
 
@@ -46,10 +46,7 @@ Patch* PatchFileLoader::loadPatchFile(std::string fileLocation)
 			printf("Type: SEMICOLON \n");
 	}
 #endif
-	std::map<std::string, Patch*> map;
+	Parser::parse(&tokens, patchMap);
 
-	Parser::parse(&tokens, &map);
-	map.at("123")->printInfo();
-
-	return nullptr;
+	return 0;
 }

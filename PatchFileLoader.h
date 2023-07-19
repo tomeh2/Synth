@@ -14,6 +14,6 @@ private:
 	static void initialize();
 	static void tokenizeFile(FILE* file, std::vector<std::string>* tokens);
 public:
-	static Patch* loadPatchFile(std::string fileLocation);
+	static int loadPatchFile(std::string fileLocation, std::map<std::string, Patch*>* map);
 };
 

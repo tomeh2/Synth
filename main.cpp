@@ -5,6 +5,7 @@
 #include "Patch.h"
 
 #include <iostream>
+#include <map>
 
 #define BUF_SIZE 100000
 
@@ -20,7 +21,12 @@ int main(int argc, char** argv)
 
 	short audioOut[BUF_SIZE];
 
-	Patch* p = PatchFileLoader::loadPatchFile("C:/Users/PC/Desktop/test.patch");
+	std::map<std::string, Patch*> patches;
+	PatchFileLoader::loadPatchFile("C:/Users/PC/Desktop/test.patch", &patches);
+
+	patches.at("patch_1")->printInfo();
+	printf("\n");
+	patches.at("patch_2")->printInfo();
 
 	Algorithm op;
 	op.create("c(1,2,3)");
