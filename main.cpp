@@ -3,6 +3,7 @@
 #include "SineOscillator.h"
 #include "PatchFileLoader.h"
 #include "Patch.h"
+#include "Channel.h"
 
 #include <iostream>
 #include <map>
@@ -28,9 +29,9 @@ int main(int argc, char** argv)
 	printf("\n");
 	patches.at("patch_2")->printInfo();
 
-	Algorithm op;
-	op.create(patches.at("patch_1"));
-	op.process(in, BUF_SIZE);
+	Channel c(patches.at("patch_1"), 16);
+	c.keyDown(40);
+	c.generateBlock(in, BUF_SIZE);
 
 	for (int i = 0; i < BUF_SIZE; i++)
 	{

@@ -16,6 +16,14 @@ private:
 	};
 	std::vector<OperatorData*> operators;
 public:
+	~Patch()
+	{
+		for (int i = 0; i < operators.size(); i++)
+		{
+			delete operators.at(i);
+		}
+	}
+
 	void addPatchParameter(std::string paramName, std::string val)
 	{
 		params.insert(std::pair<std::string, std::string>(paramName, val));
