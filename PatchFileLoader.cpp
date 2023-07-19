@@ -31,11 +31,11 @@ Patch* PatchFileLoader::loadPatchFile(std::string fileLocation)
 	for (auto it = tokens.begin(); it != tokens.end(); it++)
 	{
 		if ((*it)->getType() == Token::NUMBER_INT)
-			printf("Type: INT | Val: %d\n", (*it)->getIntData());
+			printf("Type: INT | Val: %s\n", (*it)->getData().c_str());
 		else if ((*it)->getType() == Token::NUMBER_FLOAT)
-			printf("Type: FLOAT | Val: %f\n", (*it)->getFloatData());
+			printf("Type: FLOAT | Val: %s\n", (*it)->getData().c_str());
 		else if ((*it)->getType() == Token::STRING)
-			printf("Type: STR | Val: %s\n", (*it)->getStrData());
+			printf("Type: STR | Val: %s\n", (*it)->getData().c_str());
 		else if ((*it)->getType() == Token::CURLY_START)
 			printf("Type: CURLY_START \n");
 		else if ((*it)->getType() == Token::CURLY_END)

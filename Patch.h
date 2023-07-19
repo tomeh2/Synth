@@ -8,11 +8,11 @@
 class Patch
 {
 private:
-	std::map<std::string, void*> params;
+	std::map<std::string, std::string> params;
 
 	struct OperatorData
 	{
-		std::map<std::string, void*> params;
+		std::map<std::string, std::string> params;
 	};
 	std::vector<OperatorData*> operators;
 
@@ -21,12 +21,12 @@ public:
 	void setAlgorithm(std::string algorithm) { this->algorithm = algorithm; };
 	std::string getAlgorithm() { return this->algorithm; };
 
-	void addPatchParameter(std::string paramName, void* val)
+	void addPatchParameter(std::string paramName, std::string val)
 	{
-		params.insert(std::pair<std::string, void*>(paramName, val));
+		params.insert(std::pair<std::string, std::string>(paramName, val));
 	}
 
-	void* getPatchParameter(std::string paramName)
+	std::string getPatchParameter(std::string paramName)
 	{
 		return params.at(paramName);
 	}
@@ -36,15 +36,15 @@ public:
 		operators.insert(operators.end(), new OperatorData);
 	}
 
-	void addOperatorParameter(int operatorId, std::string paramName, void* val)
+	void addOperatorParameter(int operatorId, std::string paramName, std::string val)
 	{
 		if (operatorId < operators.size())
 		{
-			operators.at(operatorId)->params.insert(std::pair<std::string, void*>(paramName, val));
+			operators.at(operatorId)->params.insert(std::pair<std::string, std::string>(paramName, val));
 		}
 	}
 
-	void* getOperatorParameter(int operatorId, std::string paramName)
+	std::string getOperatorParameter(int operatorId, std::string paramName)
 	{
 		if (operatorId < operators.size())
 		{
@@ -57,7 +57,15 @@ public:
 		printf("Patch Info\n");
 		for (auto it = params.begin(); it != params.end(); it++)
 		{
-			printf("%s = %s\n", it->first.c_str(), ((std::string*)it->second)->c_str());
+			printf("%s = %s\n", it->first.c_str(), (it->second).c_str());
+		}
+
+		for (auto it = operators.begin(); it != operators.end(); it++)
+		{
+			for (auto it2 = (*it)->params.begin(); it2 != (*it)->params.end(); it2++)
+			{
+				printf("%s = %s\n", it2->first.c_str(), (it2->second).c_str());
+			}
 		}
 	}
 };

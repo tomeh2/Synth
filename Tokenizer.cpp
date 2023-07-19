@@ -92,13 +92,13 @@ int Tokenizer::getNextToken(FILE* file, Token* t)
 	}
 
 	if (t->getType() == Token::NUMBER_INT)
-		t->setIntData(atoi(tokenVal.c_str()));
+		t->setData(tokenVal);
 	else if (t->getType() == Token::NUMBER_FLOAT)
-		t->setFloatData(atof(tokenVal.c_str()));
+		t->setData(tokenVal);
 	else if (t->getType() == Token::STRING)
 	{
-		tokenVal.insert(tokenVal.end(), '\0');
-		t->setStringData(tokenVal);
+		//tokenVal.insert(tokenVal.end(), '\0');
+		t->setData(tokenVal);
 	}
 
 	if (feof(file))

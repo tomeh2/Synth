@@ -1,6 +1,2 @@
 ﻿  Parser.cpp
-  PatchFileLoader.cpp
-  main.cpp
-C:\Users\PC\source\repos\Synth\Synth\main.cpp(32,23): warning C4244: '=': conversion from 'float' to 'short', possible loss of data
-  Generating Code...
   Synth.vcxproj -> C:\Users\PC\source\repos\Synth\x64\Debug\Synth.exe
