@@ -1,6 +1,7 @@
 #include "Algorithm.h"
 #include "Logger.h"
 #include "SerialBlock.h"
+#include "ParallelBlock.h"
 #include "SineOscillator.h"
 
 #include <vector>
@@ -11,21 +12,31 @@ void Algorithm::process(float* buffer, unsigned int bufSize)
 	this->algorithmBlock->process(buffer, bufSize);
 }
 
-void Algorithm::create(std::string structure)
+void Algorithm::createOperators(Patch* patch, std::vector<Block*>* blocks)
+{
+	for (int i = 0; i < patch->getOperatorCount(); i++)
+	{
+		blocks->insert(blocks->end(), new SineOscillator(atof(patch->getOperatorParameter(i, "f").c_str()), 
+														 atof(patch->getOperatorParameter(i, "mindex").c_str()), 
+														 atof(patch->getOperatorParameter(i, "a").c_str())));
+	}
+}
+
+void Algorithm::create(Patch* patch)
 {
 	std::vector<Block*> blocks;
 
-	blocks.push_back(new SineOscillator(400.f, 200.f, 1.f));
-	blocks.push_back(new SineOscillator(100.f, 50.f, 1.f));
-	blocks.push_back(new SineOscillator(50.f, 0.f, 1.f));
-	blocks.push_back(new SineOscillator(200.f, 0.f, 1.f));
+	createOperators(patch, &blocks);
 
 	int charsRead = 0;
 	Block* block = nullptr;
-	block = create_rec(structure, &blocks, &charsRead);
+
+	block = create_rec(patch->getPatchParameter("algorithm"), &blocks, &charsRead);
 	this->algorithmBlock = block;
 }
 
+
+// NEEDS REWORK
 Block* Algorithm::create_rec(std::string substructure, std::vector<Block*>* blocks, int* charsRead)
 {
 	int state = 0;
@@ -99,6 +110,22 @@ Block* Algorithm::create_rec(std::string substructure, std::vector<Block*>* bloc
 	if (substructure[0] == 'c')
 	{
 		SerialBlock* ser = new SerialBlock;
+		for (std::vector<int>::iterator it = operators.begin(); it != operators.end(); it++)
+		{
+			if (*it == -1)
+			{
+				ser->insert(generatedBlocks.front());
+				generatedBlocks.pop();
+				it--;
+			}
+			else
+				ser->insert(blocks->at((*it) - 1));
+		}
+		return ser;
+	} 
+	else if (substructure[0] == 'p')
+	{
+		ParallelBlock* ser = new ParallelBlock;
 		for (std::vector<int>::iterator it = operators.begin(); it != operators.end(); it++)
 		{
 			if (*it == -1)

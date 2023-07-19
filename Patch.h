@@ -15,12 +15,7 @@ private:
 		std::map<std::string, std::string> params;
 	};
 	std::vector<OperatorData*> operators;
-
-	std::string algorithm;
 public:
-	void setAlgorithm(std::string algorithm) { this->algorithm = algorithm; };
-	std::string getAlgorithm() { return this->algorithm; };
-
 	void addPatchParameter(std::string paramName, std::string val)
 	{
 		params.insert(std::pair<std::string, std::string>(paramName, val));
@@ -45,6 +40,11 @@ public:
 		{
 			operators.at(operatorId)->params.insert(std::pair<std::string, std::string>(paramName, val));
 		}
+	}
+
+	int getOperatorCount()
+	{
+		return operators.size();
 	}
 
 	std::string getOperatorParameter(int operatorId, std::string paramName)

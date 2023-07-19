@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 	patches.at("patch_2")->printInfo();
 
 	Algorithm op;
-	op.create("c(1,2,3)");
+	op.create(patches.at("patch_1"));
 	op.process(in, BUF_SIZE);
 
 	for (int i = 0; i < BUF_SIZE; i++)

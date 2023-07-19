@@ -9,5 +9,6 @@ private:
 public:
 	SineOscillator(float frequency, float modIndex, float amplitude);
 	void process(float* buffer, unsigned int bufSize);
+	void process(float* inBuffer, float* outBuffer, unsigned int bufSize);
 };
 
