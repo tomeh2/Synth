@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Channel.cpp" />
+    <ClCompile Include="FileOutputInterface.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Algorithm.cpp" />
@@ -144,8 +145,10 @@
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Channel.h" />
+    <ClInclude Include="FileOutputInterface.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Algorithm.h" />
+    <ClInclude Include="OutputInterface.h" />
     <ClInclude Include="ParallelBlock.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Patch.h" />

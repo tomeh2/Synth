@@ -4,6 +4,8 @@
 #include "PatchFileLoader.h"
 #include "Patch.h"
 #include "Channel.h"
+#include "AudioEngine.h"
+#include "FileOutputInterface.h"
 
 #include <iostream>
 #include <map>
@@ -29,19 +31,8 @@ int main(int argc, char** argv)
 	printf("\n");
 	patches.at("patch_2")->printInfo();
 
-	Channel c(patches.at("patch_1"), 16);
-	c.keyDown(40);
-	c.generateBlock(in, BUF_SIZE);
+	FileOutputInterface fout("C:/users/pc/desktop/data.raw");
+	AudioEngine a(patches.at("patch_1"), 16, 32, &fout, 256);
 
-	for (int i = 0; i < BUF_SIZE; i++)
-	{
-
-		audioOut[i] = in[i] * 2000;
-		//std::cout << audioOut[i] << " | ";
-	}
-
-	FILE* desc = nullptr;
-	desc = fopen("C:\\Users\\PC\\Desktop\\data.raw", "wb");
-	fwrite(audioOut, sizeof(short), BUF_SIZE, desc);
-	fclose(desc);
+	a.start();
 }

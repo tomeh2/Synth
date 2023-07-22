@@ -23,6 +23,8 @@ void Channel::generateBlock(float* buffer, int bufSize)
 			buffer[i] += tempBuf[i];
 		}
 	}
+
+	delete[] tempBuf;
 }
 
 void Channel::keyDown(int keyNum)
@@ -43,6 +45,7 @@ void Channel::keyUp(int keyNum)
 	{
 		Voice* v = this->activeVoices.at(keyNum);
 		v->keyUp();
+		this->activeVoices.erase(keyNum);
 
 		// TEMPORARY
 		this->freeVoices.push(v);
