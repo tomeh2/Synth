@@ -34,6 +34,8 @@ void Channel::keyDown(int keyNum)
 		Voice* v = this->freeVoices.top();
 		this->freeVoices.pop();
 
+
+
 		v->keyDown(keyNum);
 		this->activeVoices.insert(std::pair<int, Voice*>(keyNum, v));
 	}

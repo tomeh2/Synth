@@ -1,9 +1,28 @@
 #include "AudioEngine.h"
+#include "Logger.h"
 
-AudioEngine::AudioEngine(Patch* defaultPatch, int numChannels, int maxVoicesPerChannel, OutputInterface* out, size_t bufSize)
+AudioEngine::AudioEngine(Patch* defaultPatch, int numChannels, int maxVoicesPerChannel, InputInterface* in, OutputInterface* out, size_t bufSize, int sampleRate)
 {
+	this->in = in;
 	this->out = out;
 	this->bufSize = bufSize;
+	this->sampleRate = sampleRate;
+	this->usPerQuarter = 1000000 / 120;
+
+	this->usPerTick = this->usPerQuarter / in->getTPQ();
+
+	char msg[256];
+	sprintf(msg, "AudioEngine initialized");
+	Logger::log(Logger::INFO, msg);
+
+	sprintf(msg, "Buffer Size = %lld samples", bufSize);
+	Logger::log(Logger::INFO, msg);
+
+	sprintf(msg, "Sample Rate = %d", sampleRate);
+	Logger::log(Logger::INFO, msg);
+
+	sprintf(msg, "us Per Tick = %d", this->usPerTick);
+	Logger::log(Logger::INFO, msg);
 
 	for (int i = 0; i < numChannels; i++)
 	{
@@ -40,6 +59,7 @@ void AudioEngine::tempGenSamples(float* buffer, size_t bufSize)
 
 void AudioEngine::start()
 {
+	in->reset();
 	mainLoop();
 }
 
@@ -48,16 +68,20 @@ void AudioEngine::mainLoop()
 	float* buffer = new float[this->bufSize];
 	short* bufferShort = new short[this->bufSize];
 
-	for (int i = 0; i < 512; i++)
-	{
-		if (i == 10)
-		{
-			this->channels.at(0)->keyDown(42);
-		}
+	int tick = 0;
 
-		if (i == 400)
+	for (int i = 0; i < 50000; i++)
+	{
+		smf::MidiEvent midiEvent;
+		while ((midiEvent = this->in->getNextEvent()).tick < tick)
 		{
-			this->channels.at(0)->keyUp(42);
+			if (midiEvent.isNoteOn())
+				this->channels[midiEvent.getChannel()]->keyDown(midiEvent.getKeyNumber());
+
+			if (midiEvent.isNoteOff())
+				this->channels[midiEvent.getChannel()]->keyUp(midiEvent.getKeyNumber());
+
+			this->in->advance();
 		}
 
 		tempGenSamples(buffer, this->bufSize);
@@ -68,6 +92,13 @@ void AudioEngine::mainLoop()
 		}
 
 		this->out->write(bufferShort, this->bufSize);
+
+		//char msg[256];
+		//sprintf(msg, "Tick = %d", tick);
+		//Logger::log(Logger::INFO, msg);
+
+		//tick += ((float)this->bufSize / this->sampleRate * 1000000.f) / this->usPerTick;
+		tick += 1;
 	}
 
 	delete[] buffer;

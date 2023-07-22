@@ -16,9 +16,13 @@ void Algorithm::createOperators(Patch* patch, std::vector<Block*>* blocks)
 {
 	for (int i = 0; i < patch->getOperatorCount(); i++)
 	{
-		blocks->insert(blocks->end(), new SineOscillator(atof(patch->getOperatorParameter(i, "f").c_str()), 
-														 atof(patch->getOperatorParameter(i, "mindex").c_str()), 
-														 atof(patch->getOperatorParameter(i, "a").c_str())));
+		SineOscillator* osc = new SineOscillator(atof(patch->getOperatorParameter(i, "f").c_str()),
+			atof(patch->getOperatorParameter(i, "mindex").c_str()),
+			atof(patch->getOperatorParameter(i, "a").c_str()));
+
+		this->operators.insert(this->operators.end(), osc);
+
+		blocks->insert(blocks->end(), osc);
 	}
 }
 
@@ -33,6 +37,14 @@ void Algorithm::create(Patch* patch)
 
 	block = create_rec(patch->getPatchParameter("algorithm"), &blocks, &charsRead);
 	this->algorithmBlock = block;
+}
+
+void Algorithm::setBaseFrequency(float freq)
+{
+	for (auto it = this->operators.begin(); it != this->operators.end(); it++)
+	{
+		(*it)->setBaseFreq(freq);
+	}
 }
 
 

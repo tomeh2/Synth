@@ -6,6 +6,7 @@
 #include "Channel.h"
 #include "AudioEngine.h"
 #include "FileOutputInterface.h"
+#include "FileInputInterface.h"
 
 #include <iostream>
 #include <map>
@@ -15,15 +16,6 @@
 
 int main(int argc, char** argv)
 {
-	float in[BUF_SIZE];
-
-	for (int i = 0; i < BUF_SIZE; i++)
-	{
-		in[i] = 0.f;
-	}
-
-	short audioOut[BUF_SIZE];
-
 	std::map<std::string, Patch*> patches;
 	PatchFileLoader::loadPatchFile("C:/Users/PC/Desktop/test.patch", &patches);
 
@@ -32,7 +24,8 @@ int main(int argc, char** argv)
 	patches.at("patch_2")->printInfo();
 
 	FileOutputInterface fout("C:/users/pc/desktop/data.raw");
-	AudioEngine a(patches.at("patch_1"), 16, 32, &fout, 256);
+	FileInputInterface fin("C:/users/pc/desktop/midis/test.mid");
+	AudioEngine a(patches.at("patch_1"), 16, 32, &fin, &fout, (size_t) 128, 44100);
 
 	a.start();
 }
