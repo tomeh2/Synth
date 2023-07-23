@@ -24,8 +24,8 @@ int PatchFileLoader::loadPatchFile(std::string fileLocation, std::map<std::strin
 	Logger::log(Logger::INFO, ("Opened patch file " + fileLocation).c_str());
 
 	std::vector<Token*> tokens;
-	Tokenizer t;
-	t.tokenizeFile(file, &tokens);
+	Tokenizer t(file);
+	t.tokenize(&tokens);
 
 #ifdef _DEBUG
 	for (auto it = tokens.begin(); it != tokens.end(); it++)

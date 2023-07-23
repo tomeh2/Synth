@@ -9,16 +9,27 @@
 class Tokenizer
 {
 private:
+	FILE* file;
+	std::string str;
+
 	char wsLow = 0;
 	char wsHigh = 32;
 
-	int state = 0;
+	int strIndex = 0;
+
+	int isEOF();
+	int isEOS();
+	void movePointer(int val);
 	bool isWhitespace(char c);
 	bool isSeparatorChar(char c);
 	bool isNumeric(char c);
 	bool isAlpha(char c);
-	int getNextToken(FILE* file, Token* t);
+	int getNextToken(Token* t);
+	char getNextChar();
 public:
-	void tokenizeFile(FILE* file, std::vector<Token*>* tokens);
+	Tokenizer(FILE* file);
+	Tokenizer(std::string str);
+
+	void tokenize(std::vector<Token*>* tokens);
 };
 

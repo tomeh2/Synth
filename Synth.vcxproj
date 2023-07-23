@@ -104,6 +104,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <Optimization>Disabled</Optimization>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +146,6 @@
     <ClCompile Include="ParallelBlock.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="PatchFileLoader.cpp" />
-    <ClCompile Include="RtMidi.cpp" />
     <ClCompile Include="SerialBlock.cpp" />
     <ClCompile Include="SineOscillator.cpp" />
     <ClCompile Include="Tokenizer.cpp" />

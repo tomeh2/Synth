@@ -1,5 +1,39 @@
 #include "Tokenizer.h"
 
+Tokenizer::Tokenizer(FILE* file)
+{
+	this->file = file;
+	this->str = "";
+}
+
+Tokenizer::Tokenizer(std::string str)
+{
+	this->file = nullptr;
+	this->str = str;
+}
+
+int Tokenizer::isEOF()
+{
+	if (this->file != nullptr)
+		return feof(this->file);
+	return 0;
+}
+
+int Tokenizer::isEOS()
+{
+	if (this->str.compare("") != 0)
+		return strIndex < this->str.size() ? 0 : 1;
+	return 0;
+}
+
+void Tokenizer::movePointer(int val)
+{
+	if (this->file != nullptr)
+		fseek(file, val, SEEK_CUR);
+	else
+		this->strIndex += val;
+}
+
 bool Tokenizer::isWhitespace(char c)
 {
 	return c >= wsLow && c <= wsHigh ? true : false;
@@ -25,16 +59,16 @@ bool Tokenizer::isAlpha(char c)
 
 
 
-int Tokenizer::getNextToken(FILE* file, Token* t)
+int Tokenizer::getNextToken(Token* t)
 {
 	bool done = false;
 
 	char readChar;
 	std::string tokenVal = "";
 	bool first = true;
-	while (!feof(file) && !done)
+	while (!isEOF() && !isEOS() && !done)
 	{
-		readChar = fgetc(file);
+		readChar = getNextChar();
 
 		if (first)
 		{
@@ -77,12 +111,12 @@ int Tokenizer::getNextToken(FILE* file, Token* t)
 		}
 		else if ((t->getType() == Token::NUMBER_INT || t->getType() == Token::NUMBER_FLOAT) && !isNumeric(readChar))
 		{
-			fseek(file, -1, SEEK_CUR);
+			movePointer(-1);
 			done = true;
 		}
 		else if (t->getType() == Token::STRING && !isAlpha(readChar) && !isNumeric(readChar))
 		{
-			fseek(file, -1, SEEK_CUR);
+			movePointer(-1);
 			done = true;
 		}
 		else
@@ -101,19 +135,28 @@ int Tokenizer::getNextToken(FILE* file, Token* t)
 		t->setData(tokenVal);
 	}
 
-	if (feof(file))
+	if (isEOF() || isEOS())
 		return -1;
 	else
 		return 0;
 }
 
-void Tokenizer::tokenizeFile(FILE* file, std::vector<Token*>* tokens)
+char Tokenizer::getNextChar()
 {
-	char readChar;
+	if (this->file != nullptr)
+	{
+		return fgetc(this->file);
+	}
+	else
+		return this->str.at(this->strIndex++);
+}
 
-	std::string token;
+void Tokenizer::tokenize(std::vector<Token*>* tokens)
+{
+	this->strIndex = 0;
+
 	Token* t = new Token(Token::NULLTOKEN);
-	while (getNextToken(file, t) != -1)
+	while (getNextToken(t) != -1)
 	{
 		if (t->getType() == Token::NULLTOKEN)
 			delete t;

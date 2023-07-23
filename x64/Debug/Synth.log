@@ -2,5 +2,48 @@
 C:\Users\PC\source\repos\Synth\Synth\Patch.h(55,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp(35,18): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp(51,33): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp(94,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp(96,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Binasc.cpp
+  Channel.cpp
+C:\Users\PC\source\repos\Synth\Synth\Patch.h(55,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  FileInputInterface.cpp
+  FileOutputInterface.cpp
+  Logger.cpp
+  main.cpp
+C:\Users\PC\source\repos\Synth\Synth\Patch.h(55,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\main.cpp(37,9): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type '_Rep'
+          with
+          [
+              _Rep=__int64
+          ]
+C:\Users\PC\source\repos\Synth\Synth\main.cpp(37,9): message : consider using '%lld' in the format string
+C:\Users\PC\source\repos\Synth\Synth\main.cpp(37,9): message : consider using '%Id' in the format string
+C:\Users\PC\source\repos\Synth\Synth\main.cpp(37,9): message : consider using '%I64d' in the format string
+  Algorithm.cpp
+C:\Users\PC\source\repos\Synth\Synth\Patch.h(55,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\Algorithm.cpp(22,8): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\Algorithm.cpp(21,8): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\Algorithm.cpp(20,48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  MidiEvent.cpp
+  MidiEventList.cpp
+  MidiFile.cpp
+  MidiMessage.cpp
+  Options.cpp
+  ParallelBlock.cpp
+C:\Users\PC\source\repos\Synth\Synth\ParallelBlock.cpp(14,21): warning C4018: '<': signed/unsigned mismatch
+  Parser.cpp
+C:\Users\PC\source\repos\Synth\Synth\Patch.h(55,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  PatchFileLoader.cpp
+C:\Users\PC\source\repos\Synth\Synth\Patch.h(55,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  SerialBlock.cpp
+  SineOscillator.cpp
+C:\Users\PC\source\repos\Synth\Synth\SineOscillator.cpp(20,25): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\SineOscillator.cpp(34,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Tokenizer.cpp
+  Voice.cpp
+C:\Users\PC\source\repos\Synth\Synth\Patch.h(55,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\Voice.cpp(10,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+C:\Users\PC\source\repos\Synth\Synth\Algorithm.cpp(158): warning C4715: 'Algorithm::create_rec': not all control paths return a value
+C:\Users\PC\source\repos\Synth\Synth\Patch.h(67): warning C4715: 'Patch::getOperatorParameter': not all control paths return a value
   Synth.vcxproj -> C:\Users\PC\source\repos\Synth\x64\Debug\Synth.exe

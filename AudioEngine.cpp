@@ -55,6 +55,8 @@ void AudioEngine::tempGenSamples(float* buffer, size_t bufSize)
 			buffer[i] += tempBuf[i];
 		}
 	}
+
+	delete[] tempBuf;
 }
 
 void AudioEngine::start()
@@ -70,10 +72,10 @@ void AudioEngine::mainLoop()
 
 	int tick = 0;
 
-	for (int i = 0; i < 50000; i++)
+	for (int i = 0; i < 125000; i++)
 	{
 		smf::MidiEvent midiEvent;
-		while ((midiEvent = this->in->getNextEvent()).tick < tick)
+		while ((midiEvent = this->in->getNextEvent()).tick <= tick)
 		{
 			if (midiEvent.isNoteOn())
 				this->channels[midiEvent.getChannel()]->keyDown(midiEvent.getKeyNumber());
@@ -98,7 +100,7 @@ void AudioEngine::mainLoop()
 		//Logger::log(Logger::INFO, msg);
 
 		//tick += ((float)this->bufSize / this->sampleRate * 1000000.f) / this->usPerTick;
-		tick += 1;
+		tick += 7;
 	}
 
 	delete[] buffer;

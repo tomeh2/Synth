@@ -57,9 +57,6 @@
     <ClCompile Include="FileOutputInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RtMidi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FileInputInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -3,6 +3,7 @@
 #include "SerialBlock.h"
 #include "ParallelBlock.h"
 #include "SineOscillator.h"
+#include "Tokenizer.h"
 
 #include <vector>
 #include <queue>
@@ -51,6 +52,9 @@ void Algorithm::setBaseFrequency(float freq)
 // NEEDS REWORK
 Block* Algorithm::create_rec(std::string substructure, std::vector<Block*>* blocks, int* charsRead)
 {
+	//Tokenizer t;
+
+
 	int state = 0;
 	int currOperatorNum = 0;
 	std::vector<int> operators;
