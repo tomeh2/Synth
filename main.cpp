@@ -22,10 +22,10 @@ int main(int argc, char** argv)
 
 	patches.at("patch_1")->printInfo();
 	printf("\n");
-	patches.at("patch_2")->printInfo();
+	//patches.at("patch_2")->printInfo();
 
-	FileOutputInterface fout("C:/users/pc/desktop/data.raw");
-	FileInputInterface fin("C:/users/pc/desktop/midis/IR/test.mid");
+	FileOutputInterface fout("C:/users/pc/desktop/data2.raw");
+	FileInputInterface fin("C:/users/pc/desktop/midis/test.mid");
 	AudioEngine a(patches.at("patch_1"), 16, 32, &fin, &fout, (size_t) 128, 44100);
 
 	auto begin = std::chrono::high_resolution_clock::now();

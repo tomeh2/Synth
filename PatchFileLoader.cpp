@@ -25,27 +25,17 @@ int PatchFileLoader::loadPatchFile(std::string fileLocation, std::map<std::strin
 
 	std::vector<Token*> tokens;
 	Tokenizer t(file);
+	t.addNeutralChar('_');
+	t.addNeutralChar('(');
+	t.addNeutralChar(')');
+	t.addNeutralChar(',');
+
+	t.addSeparatorChar('{');
+	t.addSeparatorChar('}');
+	t.addSeparatorChar(';');
+	t.addSeparatorChar('=');
 	t.tokenize(&tokens);
 
-#ifdef _DEBUG
-	for (auto it = tokens.begin(); it != tokens.end(); it++)
-	{
-		if ((*it)->getType() == Token::NUMBER_INT)
-			printf("Type: INT | Val: %s\n", (*it)->getData().c_str());
-		else if ((*it)->getType() == Token::NUMBER_FLOAT)
-			printf("Type: FLOAT | Val: %s\n", (*it)->getData().c_str());
-		else if ((*it)->getType() == Token::STRING)
-			printf("Type: STR | Val: %s\n", (*it)->getData().c_str());
-		else if ((*it)->getType() == Token::CURLY_START)
-			printf("Type: CURLY_START \n");
-		else if ((*it)->getType() == Token::CURLY_END)
-			printf("Type: CURLY_END \n");
-		else if ((*it)->getType() == Token::EQUALS)
-			printf("Type: EQUALS \n");
-		else if ((*it)->getType() == Token::SEMICOLON)
-			printf("Type: SEMICOLON \n");
-	}
-#endif
 	Parser::parse(&tokens, patchMap);
 
 	return 0;

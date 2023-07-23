@@ -41,10 +41,16 @@ bool Tokenizer::isWhitespace(char c)
 
 bool Tokenizer::isSeparatorChar(char c)
 {
-	return (c == '=' ||
-		c == '{' ||
-		c == '}' ||
-		c == ';') ? true : false;
+	bool isSeparator = false;
+	for (auto it = this->separatorChars.begin(); it != this->separatorChars.end(); it++)
+	{
+		if ((*it) == c)
+		{
+			isSeparator = true;
+			break;
+		}
+	}
+	return isSeparator;
 }
 
 bool Tokenizer::isNumeric(char c)
@@ -54,7 +60,19 @@ bool Tokenizer::isNumeric(char c)
 
 bool Tokenizer::isAlpha(char c)
 {
-	return (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c == '_' || c == '(' || c == ')' || c == ',') ? true : false;
+	bool isAlpha = false;
+	//return (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c == '_' || c == '(' || c == ')' || c == ',') ? true : false;
+	isAlpha = (c >= 65 && c <= 90 || c >= 97 && c <= 122) ? true : false;
+	
+	for (auto it = this->neutralChars.begin(); it != this->neutralChars.end(); it++)
+	{
+		if ((*it) == c)
+		{
+			isAlpha = true;
+			break;
+		}
+	}
+	return isAlpha;
 }
 
 
@@ -72,24 +90,12 @@ int Tokenizer::getNextToken(Token* t)
 
 		if (first)
 		{
-			if (readChar == '{')
+			if (isSeparatorChar(readChar))
 			{
-				t->setType(Token::CURLY_START);
-				return 0;
-			}
-			else if (readChar == '}')
-			{
-				t->setType(Token::CURLY_END);
-				return 0;
-			}
-			else if (readChar == '=')
-			{
-				t->setType(Token::EQUALS);
-				return 0;
-			}
-			else if (readChar == ';')
-			{
-				t->setType(Token::SEMICOLON);
+				std::string str;
+				str.insert(str.begin(), readChar);
+				t->setData(str);
+				t->setType(Token::STRING);
 				return 0;
 			}
 			else if (isNumeric(readChar))
@@ -131,7 +137,6 @@ int Tokenizer::getNextToken(Token* t)
 		t->setData(tokenVal);
 	else if (t->getType() == Token::STRING)
 	{
-		//tokenVal.insert(tokenVal.end(), '\0');
 		t->setData(tokenVal);
 	}
 
@@ -164,4 +169,27 @@ void Tokenizer::tokenize(std::vector<Token*>* tokens)
 			tokens->insert(tokens->end(), t);
 		t = new Token(Token::NULLTOKEN);
 	}
+}
+
+void Tokenizer::printTokens(std::vector<Token*>* tokens)
+{
+	for (auto it = tokens->begin(); it != tokens->end(); it++)
+	{
+		if ((*it)->getType() == Token::NUMBER_INT)
+			printf("Type: INT | Val: %s\n", (*it)->getData().c_str());
+		else if ((*it)->getType() == Token::NUMBER_FLOAT)
+			printf("Type: FLOAT | Val: %s\n", (*it)->getData().c_str());
+		else if ((*it)->getType() == Token::STRING)
+			printf("Type: STR | Val: %s\n", (*it)->getData().c_str());
+	}
+}
+
+void Tokenizer::addNeutralChar(char c)
+{
+	this->neutralChars.insert(this->neutralChars.begin(), c);
+}
+
+void Tokenizer::addSeparatorChar(char c)
+{
+	this->separatorChars.insert(this->separatorChars.begin(), c);
 }

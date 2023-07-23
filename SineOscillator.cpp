@@ -18,7 +18,7 @@ void SineOscillator::process(float* buffer, unsigned int bufSize)
 	{
 		temp = buffer[i];
 		buffer[i] = amplitude * sin(time);
-		time += 2.f * 3.1415f * (this->baseFreq * this->relFreq + temp * this->modIndex) / 44100.f;
+		time += 2.f * 3.1415f * (this->baseFreq * this->relFreq + (temp * this->modIndex * this->baseFreq * this->relFreq)) / 44100.f;
 
 		if (time > 2 * 3.1415f)
 			time -= 2 * 3.1415f;
@@ -32,7 +32,7 @@ void SineOscillator::process(float* inBuffer, float* outBuffer, unsigned int buf
 	{
 		temp = inBuffer[i];
 		outBuffer[i] = amplitude * sin(time);
-		time += 2.f * 3.1415f * (this->baseFreq * this->relFreq + temp * this->modIndex) / 44100.f;
+		time += 2.f * 3.1415f * (this->baseFreq * this->relFreq + (temp * this->modIndex * this->baseFreq * this->relFreq)) / 44100.f;
 
 		if (time > 2 * 3.1415f)
 			time -= 2 * 3.1415f;

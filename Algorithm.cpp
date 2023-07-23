@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <queue>
+#include <stack>
 
 void Algorithm::process(float* buffer, unsigned int bufSize)
 {
@@ -36,7 +37,15 @@ void Algorithm::create(Patch* patch)
 	int charsRead = 0;
 	Block* block = nullptr;
 
-	block = create_rec(patch->getPatchParameter("algorithm"), &blocks, &charsRead);
+	std::vector<Token*> tokens;
+	Tokenizer t(patch->getPatchParameter("algorithm"));
+	t.addSeparatorChar('(');
+	t.addSeparatorChar(')');
+	t.addSeparatorChar(',');
+	t.tokenize(&tokens);
+
+	int tokenIndex = 0;
+	block = create_rec(&tokens, nullptr, nullptr, &tokenIndex);
 	this->algorithmBlock = block;
 }
 
@@ -50,12 +59,70 @@ void Algorithm::setBaseFrequency(float freq)
 
 
 // NEEDS REWORK
-Block* Algorithm::create_rec(std::string substructure, std::vector<Block*>* blocks, int* charsRead)
+Block* Algorithm::create_rec(std::vector<Token*>* tokens, std::vector<Block*>* blocks, std::stack<Token*>* tokenStack, int* tokenIndex)
 {
-	//Tokenizer t;
+	char msg[256];
+	std::stack<Block*> blockStack;
+
+	Block* b = nullptr;
+	if (tokens->at(*tokenIndex)->getData().compare("s") == 0)
+		b = new SerialBlock();
+	else if (tokens->at(*tokenIndex)->getData().compare("p") == 0)
+		b = new ParallelBlock();
+	else
+	{
+		sprintf(msg, "Unrecognized algorithm construct %s", tokens->at(*tokenIndex)->getData().c_str());
+		Logger::log(Logger::ERROR, msg);
+		delete b;
+		return nullptr;
+	}
+	(*tokenIndex)++;
+
+	if (tokens->at(*tokenIndex)->getData().compare("(") != 0)
+	{
+		sprintf(msg, "Expected ( but got %s", tokens->at(*tokenIndex)->getData().c_str());
+		Logger::log(Logger::ERROR, msg);
+		delete b;
+		return nullptr;
+	}
+	(*tokenIndex)++;
+
+	do
+	{
+		if (tokens->at(*tokenIndex)->getData().compare("p") == 0 || tokens->at(*tokenIndex)->getData().compare("s") == 0)
+		{
+			Block* bRet = create_rec(tokens, blocks, tokenStack, tokenIndex);
+
+			if (bRet == nullptr)
+				return nullptr;
+
+			b->insert(bRet);
+		}
+		else
+		{
+			size_t operatorNum = atoi(tokens->at(*tokenIndex)->getData().c_str());
+			b->insert(this->operators.at(operatorNum - 1));
+			(*tokenIndex)++;
+		}
+
+		if (tokens->at(*tokenIndex)->getData().compare(",") == 0)
+			(*tokenIndex)++;
+		else if (tokens->at(*tokenIndex)->getData().compare(")") == 0)
+			;
+		else
+		{
+			sprintf(msg, "Invalid token encountered while building algorithm %s", tokens->at(*tokenIndex)->getData().c_str());
+			Logger::log(Logger::ERROR, msg);
+			delete b;
+			return nullptr;
+		}
+	} while (tokens->at(*tokenIndex)->getData().compare(")") != 0);
+	(*tokenIndex)++;
+
+	return b;
 
 
-	int state = 0;
+	/*int state = 0;
 	int currOperatorNum = 0;
 	std::vector<int> operators;
 	std::queue<Block*> generatedBlocks;
@@ -154,5 +221,5 @@ Block* Algorithm::create_rec(std::string substructure, std::vector<Block*>* bloc
 				ser->insert(blocks->at((*it) - 1));
 		}
 		return ser;
-	}
+	}*/
 }

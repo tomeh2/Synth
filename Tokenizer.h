@@ -12,6 +12,9 @@ private:
 	FILE* file;
 	std::string str;
 
+	std::vector<char> neutralChars;
+	std::vector<char> separatorChars;
+
 	char wsLow = 0;
 	char wsHigh = 32;
 
@@ -31,5 +34,9 @@ public:
 	Tokenizer(std::string str);
 
 	void tokenize(std::vector<Token*>* tokens);
+	void printTokens(std::vector<Token*>* tokens);
+
+	void addNeutralChar(char c);
+	void addSeparatorChar(char c);
 };
 

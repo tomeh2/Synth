@@ -7,10 +7,6 @@ class Token
 public:
 	enum TokenType
 	{
-		CURLY_START,
-		CURLY_END,
-		SEMICOLON,
-		EQUALS,
 		NUMBER_FLOAT,
 		NUMBER_INT,
 		STRING,

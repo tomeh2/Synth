@@ -10,8 +10,10 @@ class Channel
 private:
 	std::stack<Voice*> freeVoices;
 	std::map<int, Voice*> activeVoices;
+
+	int chNum;
 public:
-	Channel(Patch* p, int maxVoices);
+	Channel(Patch* p, int maxVoices, int chNum);
 
 	void generateBlock(float* buffer, int bufSize);
 	void keyDown(int keyNum);

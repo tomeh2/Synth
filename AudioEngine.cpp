@@ -26,7 +26,7 @@ AudioEngine::AudioEngine(Patch* defaultPatch, int numChannels, int maxVoicesPerC
 
 	for (int i = 0; i < numChannels; i++)
 	{
-		this->channels.push_back(new Channel(defaultPatch, maxVoicesPerChannel));
+		this->channels.push_back(new Channel(defaultPatch, maxVoicesPerChannel, i));
 	}
 }
 
@@ -72,7 +72,7 @@ void AudioEngine::mainLoop()
 
 	int tick = 0;
 
-	for (int i = 0; i < 125000; i++)
+	for (int i = 0; i < 60000; i++)
 	{
 		smf::MidiEvent midiEvent;
 		while ((midiEvent = this->in->getNextEvent()).tick <= tick)
@@ -100,7 +100,7 @@ void AudioEngine::mainLoop()
 		//Logger::log(Logger::INFO, msg);
 
 		//tick += ((float)this->bufSize / this->sampleRate * 1000000.f) / this->usPerTick;
-		tick += 7;
+		tick += 4;
 	}
 
 	delete[] buffer;

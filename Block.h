@@ -9,5 +9,6 @@ class Block
 public:
 	virtual void process(float* buffer, unsigned int bufSize) { return; };
 	virtual void process(float* inBuffer, float* outBuffer, unsigned int bufSize) { return; };
+	virtual void insert(Block* block) { return; };
 };
 

@@ -26,10 +26,14 @@ int Parser::accept(std::vector<Token*>* tokens, Token::TokenType expectedType, s
     retVal = ((currToken->getType() == expectedType) && (value.compare(currToken->getData()) == 0)) ? 1 : 0;
     
 
-    if (retVal == 1 && currTokenIndex < tokens->size())
+    if (retVal == 1)
     {
         currTokenIndex++;
-        currToken = tokens->at(currTokenIndex);
+
+        if (currTokenIndex < tokens->size())
+        {
+            currToken = tokens->at(currTokenIndex);
+        }
     }
 
     return retVal;
@@ -50,7 +54,7 @@ int Parser::blockPatch(std::vector<Token*>* tokens, std::map<std::string, Patch*
         return -1;
     }
 
-    if (!accept(tokens, Token::CURLY_START))
+    if (!accept(tokens, Token::STRING, "{"))
     {
         Logger::log(Logger::ERROR, "Patch file parser error! Expected {");
         return -1;
@@ -79,7 +83,7 @@ int Parser::blockPatch(std::vector<Token*>* tokens, std::map<std::string, Patch*
     else
         Logger::log(Logger::ERROR, "Ignoring a loaded patch object without a name");
 
-    if (!accept(tokens, Token::CURLY_END))
+    if (!accept(tokens, Token::STRING, "}"))
     {
         Logger::log(Logger::ERROR, "Patch file parser error! Expected }");
         return -1;
@@ -96,7 +100,7 @@ int Parser::blockOperator(std::vector<Token*>* tokens, Patch* patch)
         return -1;
     }
 
-    if (!accept(tokens, Token::CURLY_START))
+    if (!accept(tokens, Token::STRING, "{"))
     {
         Logger::log(Logger::ERROR, "Patch file parser error! Expected {");
         return -1;
@@ -117,7 +121,7 @@ int Parser::blockOperator(std::vector<Token*>* tokens, Patch* patch)
         rval = "";
     }
 
-    if (!accept(tokens, Token::CURLY_END))
+    if (!accept(tokens, Token::STRING, "}"))
     {
         Logger::log(Logger::ERROR, "Patch file parser error! Expected }");
         return -1;
@@ -136,7 +140,7 @@ int Parser::statement(std::vector<Token*>* tokens, std::string* lvalue, std::str
         return -1;
     }
 
-    if (!accept(tokens, Token::EQUALS))
+    if (!accept(tokens, Token::STRING, "="))
     {
         currTokenIndex -= 1;
         currToken = tokens->at(currTokenIndex);
@@ -153,7 +157,7 @@ int Parser::statement(std::vector<Token*>* tokens, std::string* lvalue, std::str
         return -1;
     }
 
-    if (!accept(tokens, Token::SEMICOLON))
+    if (!accept(tokens, Token::STRING, ";"))
     {
         Logger::log(Logger::ERROR, "Patch file parser error! Expected ;");
         return -1;
