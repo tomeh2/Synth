@@ -17,7 +17,10 @@ private:
 	int usPerTick;
 	int usPerQuarter;
 
+	int BPM;
+
 	void mainLoop();
+	void calcUsPerTick();
 public:
 	AudioEngine(Patch* defaultPatch, int numChannels, int maxVoicesPerChannel, InputInterface* in, OutputInterface* out, size_t bufSize, int sampleRate);
 	~AudioEngine();

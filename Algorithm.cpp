@@ -25,6 +25,12 @@ void Algorithm::createOperators(Patch* patch, std::vector<Block*>* blocks)
 		this->operators.insert(this->operators.end(), osc);
 
 		blocks->insert(blocks->end(), osc);
+
+		std::string envName = patch->getOperatorParameter(i, "envelope");
+		if (envName.compare("") != 0)
+		{
+
+		}
 	}
 }
 
@@ -45,7 +51,7 @@ void Algorithm::create(Patch* patch)
 	t.tokenize(&tokens);
 
 	int tokenIndex = 0;
-	block = create_rec(&tokens, nullptr, nullptr, &tokenIndex);
+	block = create_rec(&tokens, &tokenIndex);
 	this->algorithmBlock = block;
 }
 
@@ -59,10 +65,9 @@ void Algorithm::setBaseFrequency(float freq)
 
 
 // NEEDS REWORK
-Block* Algorithm::create_rec(std::vector<Token*>* tokens, std::vector<Block*>* blocks, std::stack<Token*>* tokenStack, int* tokenIndex)
+Block* Algorithm::create_rec(std::vector<Token*>* tokens, int* tokenIndex)
 {
 	char msg[256];
-	std::stack<Block*> blockStack;
 
 	Block* b = nullptr;
 	if (tokens->at(*tokenIndex)->getData().compare("s") == 0)
@@ -91,7 +96,7 @@ Block* Algorithm::create_rec(std::vector<Token*>* tokens, std::vector<Block*>* b
 	{
 		if (tokens->at(*tokenIndex)->getData().compare("p") == 0 || tokens->at(*tokenIndex)->getData().compare("s") == 0)
 		{
-			Block* bRet = create_rec(tokens, blocks, tokenStack, tokenIndex);
+			Block* bRet = create_rec(tokens, tokenIndex);
 
 			if (bRet == nullptr)
 				return nullptr;
@@ -120,106 +125,4 @@ Block* Algorithm::create_rec(std::vector<Token*>* tokens, std::vector<Block*>* b
 	(*tokenIndex)++;
 
 	return b;
-
-
-	/*int state = 0;
-	int currOperatorNum = 0;
-	std::vector<int> operators;
-	std::queue<Block*> generatedBlocks;
-
-	for (unsigned int i = 1; i < substructure.size(); i++)
-	{
-		//CHECK STARTING CHARACTER
-		if (state == 0)
-		{
-			if (substructure[i] != '(')
-			{
-				Logger::log(Logger::Level::ERROR, "Algorithm creation syntax error. Expected \'(\' but got " + substructure[i]);
-				*charsRead = -1;
-				return nullptr;
-			}
-			else
-			{
-				state = 1;
-			}
-			
-		}
-
-		if (state == 1)
-		{
-			if (isdigit(substructure[i]))
-			{
-				state = 2;
-				i--;
-				continue;
-			}
-		}
-
-		//NUMBER PARSING
-		if (state == 2)
-		{
-			if (isdigit(substructure[i]))
-			{
-				currOperatorNum *= 10;
-				currOperatorNum += substructure[i] - 48;
-			}
-			else if (isalpha(substructure[i]))
-			{
-				Block* tmp = nullptr;
-				int skip;
-				tmp = create_rec(substructure.substr(i, substructure.size() - i), blocks, &skip);
-				generatedBlocks.push(tmp);
-				operators.push_back(-1);
-				i += skip;
-			}
-			else if (substructure[i] == ')')
-			{
-				*charsRead = i + 1;
-				operators.push_back(currOperatorNum);
-				break;
-			}
-			else if (substructure[i] == ',')
-			{
-				operators.push_back(currOperatorNum);
-				currOperatorNum = 0;
-			}
-			else
-			{
-				Logger::log(Logger::Level::ERROR, "Algorithm creation syntax error.");
-			}
-		}
-	}
-
-	if (substructure[0] == 'c')
-	{
-		SerialBlock* ser = new SerialBlock;
-		for (std::vector<int>::iterator it = operators.begin(); it != operators.end(); it++)
-		{
-			if (*it == -1)
-			{
-				ser->insert(generatedBlocks.front());
-				generatedBlocks.pop();
-				it--;
-			}
-			else
-				ser->insert(blocks->at((*it) - 1));
-		}
-		return ser;
-	} 
-	else if (substructure[0] == 'p')
-	{
-		ParallelBlock* ser = new ParallelBlock;
-		for (std::vector<int>::iterator it = operators.begin(); it != operators.end(); it++)
-		{
-			if (*it == -1)
-			{
-				ser->insert(generatedBlocks.front());
-				generatedBlocks.pop();
-				it--;
-			}
-			else
-				ser->insert(blocks->at((*it) - 1));
-		}
-		return ser;
-	}*/
 }

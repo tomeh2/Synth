@@ -27,7 +27,9 @@ FileInputInterface::FileInputInterface(const char* filename)
 
 smf::MidiEvent FileInputInterface::getNextEvent()
 {
-	return this->midiFile.getEvent(0, this->currEvent);
+	if (this->currEvent < this->midiFile.getNumEvents(0))
+		return this->midiFile.getEvent(0, this->currEvent);
+	return smf::MidiEvent(0x00, 0x00);
 }
 
 void FileInputInterface::advance()

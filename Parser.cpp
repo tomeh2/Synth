@@ -5,6 +5,7 @@
 Token* currToken;
 int currTokenIndex;
 int currOperatorIndex;
+int currEnvelopeIndex;
 
 int Parser::accept(std::vector<Token*>* tokens, Token::TokenType expectedType)
 {
@@ -83,6 +84,11 @@ int Parser::blockPatch(std::vector<Token*>* tokens, std::map<std::string, Patch*
     else
         Logger::log(Logger::ERROR, "Ignoring a loaded patch object without a name");
 
+    while (blockEnvelope(tokens, p) == 0)
+    {
+        Logger::log(Logger::INFO, "Created new envelope data object");
+    }
+
     if (!accept(tokens, Token::STRING, "}"))
     {
         Logger::log(Logger::ERROR, "Patch file parser error! Expected }");
@@ -128,6 +134,92 @@ int Parser::blockOperator(std::vector<Token*>* tokens, Patch* patch)
     }
 
     currOperatorIndex++;
+    return 0;
+}
+
+int Parser::blockEnvelope(std::vector<Token*>* tokens, Patch* patch)
+{
+    char msg[128];
+
+    if (!accept(tokens, Token::STRING, "Envelope"))
+    {
+        Logger::log(Logger::ERROR, "Patch file parser error! Expected Envelope block");
+        return -1;
+    }
+
+    if (!accept(tokens, Token::STRING, "{"))
+    {
+        Logger::log(Logger::ERROR, "Patch file parser error! Expected {");
+        return -1;
+    }
+
+    std::string lval;
+    std::string rval;
+    if (statement(tokens, &lval, &rval) == 0)
+    {
+        if (lval.compare("name") != 0)
+        {
+            Logger::log(Logger::ERROR, "Expected envelope name after start of Envelope block");
+            return -1;
+        }
+
+        sprintf(msg, "Loaded envelope parameter %s = %s", lval.c_str(), rval.c_str());
+        Logger::log(Logger::INFO, msg);
+        patch->addEnvelope(rval);
+    }
+    else
+        return -1;
+
+    int envSeg = 0;
+    while (blockSegments(tokens, patch, rval, envSeg++) == 0)
+    {
+        Logger::log(Logger::INFO, "Created new envelope segment");
+    }
+
+    if (!accept(tokens, Token::STRING, "}"))
+    {
+        Logger::log(Logger::ERROR, "Patch file parser error! Expected }");
+        return -1;
+    }
+
+    return 0;
+}
+
+int Parser::blockSegments(std::vector<Token*>* tokens, Patch* patch, std::string currEnvelope, int currEnvelopeId)
+{
+    char msg[128];
+
+    if (!accept(tokens, Token::STRING, "Segment"))
+    {
+        Logger::log(Logger::ERROR, "Patch file parser error! Expected Envelope block");
+        return -1;
+    }
+
+    if (!accept(tokens, Token::STRING, "{"))
+    {
+        Logger::log(Logger::ERROR, "Patch file parser error! Expected {");
+        return -1;
+    }
+
+    patch->addEnvelopeSegment(currEnvelope);
+    std::string lval;
+    std::string rval;
+    while (statement(tokens, &lval, &rval) == 0)
+    {
+        sprintf(msg, "Loaded envelope segment parameter %s = %s", lval.c_str(), rval.c_str());
+        Logger::log(Logger::ERROR, msg);
+        patch->addEnvelopeSegmentParam(currEnvelope, currEnvelopeId, lval, rval);
+
+        lval = "";
+        rval = "";
+    }
+
+    if (!accept(tokens, Token::STRING, "}"))
+    {
+        Logger::log(Logger::ERROR, "Patch file parser error! Expected }");
+        return -1;
+    }
+
     return 0;
 }
 

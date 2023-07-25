@@ -55,7 +55,7 @@ bool Tokenizer::isSeparatorChar(char c)
 
 bool Tokenizer::isNumeric(char c)
 {
-	return (c >= 48 && c <= 57) || c == 46 ? true : false;
+	return (c >= 48 && c <= 57) || c == 46 || c == 45 ? true : false;
 }
 
 bool Tokenizer::isAlpha(char c)

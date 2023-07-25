@@ -7,9 +7,8 @@ AudioEngine::AudioEngine(Patch* defaultPatch, int numChannels, int maxVoicesPerC
 	this->out = out;
 	this->bufSize = bufSize;
 	this->sampleRate = sampleRate;
-	this->usPerQuarter = 1000000 / 120;
-
-	this->usPerTick = this->usPerQuarter / in->getTPQ();
+	this->BPM = 120;
+	calcUsPerTick();
 
 	char msg[256];
 	sprintf(msg, "AudioEngine initialized");
@@ -70,18 +69,23 @@ void AudioEngine::mainLoop()
 	float* buffer = new float[this->bufSize];
 	short* bufferShort = new short[this->bufSize];
 
-	int tick = 0;
+	float tick = 0;
 
-	for (int i = 0; i < 60000; i++)
+	for (int i = 0; i < 200000; i++)
 	{
 		smf::MidiEvent midiEvent;
-		while ((midiEvent = this->in->getNextEvent()).tick <= tick)
+		while ((midiEvent = this->in->getNextEvent()).tick <= (int) tick)
 		{
 			if (midiEvent.isNoteOn())
 				this->channels[midiEvent.getChannel()]->keyDown(midiEvent.getKeyNumber());
-
-			if (midiEvent.isNoteOff())
+			else if (midiEvent.isNoteOff())
 				this->channels[midiEvent.getChannel()]->keyUp(midiEvent.getKeyNumber());
+			else if (midiEvent.isTempo())
+			{
+				this->BPM = midiEvent.getTempoBPM();
+				calcUsPerTick();
+			}
+
 
 			this->in->advance();
 		}
@@ -96,13 +100,18 @@ void AudioEngine::mainLoop()
 		this->out->write(bufferShort, this->bufSize);
 
 		//char msg[256];
-		//sprintf(msg, "Tick = %d", tick);
+		//sprintf(msg, "Tick = %f", tick);
 		//Logger::log(Logger::INFO, msg);
 
-		//tick += ((float)this->bufSize / this->sampleRate * 1000000.f) / this->usPerTick;
-		tick += 4;
+		tick += ((float)this->bufSize / this->sampleRate * 1000000.f) / this->usPerTick;
+		//tick += 1;
 	}
 
 	delete[] buffer;
 	delete[] bufferShort;
+}
+
+void AudioEngine::calcUsPerTick()
+{
+	this->usPerTick = 60000000 / (this->BPM * in->getTPQ());
 }
