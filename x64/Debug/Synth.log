@@ -1,4 +1,10 @@
-﻿  main.cpp
+﻿  AudioEngine.cpp
+C:\Users\PC\source\repos\Synth\Synth\Patch.h(77,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp(34,18): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp(50,33): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp(86,38): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp(117,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
 C:\Users\PC\source\repos\Synth\Synth\Patch.h(77,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\PC\source\repos\Synth\Synth\main.cpp(37,9): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type '_Rep'
           with
@@ -8,4 +14,5 @@ C:\Users\PC\source\repos\Synth\Synth\main.cpp(37,9): warning C4477: 'printf' : f
 C:\Users\PC\source\repos\Synth\Synth\main.cpp(37,9): message : consider using '%lld' in the format string
 C:\Users\PC\source\repos\Synth\Synth\main.cpp(37,9): message : consider using '%Id' in the format string
 C:\Users\PC\source\repos\Synth\Synth\main.cpp(37,9): message : consider using '%I64d' in the format string
+  Generating Code...
   Synth.vcxproj -> C:\Users\PC\source\repos\Synth\x64\Debug\Synth.exe

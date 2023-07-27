@@ -11,6 +11,7 @@ Channel::Channel(Patch* p, int maxVoices, int chNum)
 	{
 		this->freeVoices.push(new Voice(p));
 	}
+	this->volume = 1.f;
 
 	sprintf(msg, "Channel %d initialized", chNum);
 	Logger::log(Logger::INFO, msg);
@@ -30,6 +31,11 @@ void Channel::generateBlock(float* buffer, int bufSize)
 		{
 			buffer[i] += tempBuf[i];
 		}
+	}
+
+	for (int i = 0; i < bufSize; i++)
+	{
+		buffer[i] *= this->volume;
 	}
 
 	freeInactiveVoices();
@@ -75,6 +81,14 @@ void Channel::freeInactiveVoices()
 		}
 		else
 			it++;
+	}
+}
+
+void Channel::setVolume(float vol)
+{
+	if (vol >= 0.f && vol <= 1.f)
+	{
+		this->volume = vol;
 	}
 }
 

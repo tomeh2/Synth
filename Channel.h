@@ -12,6 +12,7 @@ private:
 	std::map<int, Voice*> activeVoices;
 
 	int chNum;
+	float volume;
 public:
 	Channel(Patch* p, int maxVoices, int chNum);
 
@@ -20,5 +21,7 @@ public:
 	void keyUp(int keyNum);
 
 	void freeInactiveVoices();
+
+	void setVolume(float vol);
 };
 

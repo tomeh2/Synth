@@ -16,4 +16,5 @@ public:
 	void advance();
 	void reset();
 	int getTPQ();
+	bool isActive();
 };

@@ -9,4 +9,5 @@ public:
 	virtual void advance() {};
 	virtual void reset() {};
 	virtual int getTPQ() { return 0; };
+	virtual bool isActive() { return false; };
 };

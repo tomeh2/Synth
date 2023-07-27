@@ -66,12 +66,13 @@ void AudioEngine::start()
 
 void AudioEngine::mainLoop()
 {
+	char msg[256];
 	float* buffer = new float[this->bufSize];
 	short* bufferShort = new short[this->bufSize];
 
 	float tick = 0;
 
-	for (int i = 0; i < 200000; i++)
+	while (this->in->isActive())
 	{
 		smf::MidiEvent midiEvent;
 		while ((midiEvent = this->in->getNextEvent()).tick <= (int)tick)
@@ -85,16 +86,26 @@ void AudioEngine::mainLoop()
 				this->BPM = midiEvent.getTempoBPM();
 				calcUsPerTick();
 			}
+			else if (midiEvent.isController())
+			{
+				switch (midiEvent.getP1())				// VOLUME CONTROL
+				{
+				case 0x07:
+					sprintf(msg, "[CONTROLLER] Channel: %d | Set Volume: %d", midiEvent.getChannel(), midiEvent.getP2());
+					Logger::log(Logger::INFO, msg);
+
+					this->channels[midiEvent.getChannel()]->setVolume(linToExpVolume(midiEvent.getP2() / 127.f));
+					break;
+				default:
+					break;
+				}
+			}
+			else if (midiEvent.getCommandByte() == 0 && midiEvent.getP1() == 0)
+				break;
 
 
 			this->in->advance();
 		}
-		/*
-		if (i == 1000)
-			this->channels[0]->keyDown(40);
-
-		if (i == 50000)
-			this->channels[0]->keyUp(40);*/
 
 		tempGenSamples(buffer, this->bufSize);
 
@@ -105,7 +116,7 @@ void AudioEngine::mainLoop()
 
 		this->out->write(bufferShort, this->bufSize);
 
-		//char msg[256];
+		//
 		//sprintf(msg, "Tick = %f", tick);
 		//Logger::log(Logger::INFO, msg);
 
@@ -120,4 +131,9 @@ void AudioEngine::mainLoop()
 void AudioEngine::calcUsPerTick()
 {
 	this->usPerTick = 60000000 / (this->BPM * in->getTPQ());
+}
+
+float AudioEngine::linToExpVolume(float val)
+{
+	return val * val;
 }

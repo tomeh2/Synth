@@ -21,6 +21,7 @@ private:
 
 	void mainLoop();
 	void calcUsPerTick();
+	float linToExpVolume(float val);
 public:
 	AudioEngine(Patch* defaultPatch, int numChannels, int maxVoicesPerChannel, InputInterface* in, OutputInterface* out, size_t bufSize, int sampleRate);
 	~AudioEngine();

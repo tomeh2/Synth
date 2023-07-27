@@ -46,3 +46,8 @@ int FileInputInterface::getTPQ()
 {
 	return this->midiFile.getTicksPerQuarterNote();
 }
+
+bool FileInputInterface::isActive()
+{
+	return this->currEvent < this->midiFile.getNumEvents(0);
+}
