@@ -1,5 +1,9 @@
 #include "SawOscillator.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+
 SawOscillator::SawOscillator(float relFreq, float modIndex, float amplitude)
 {
 	this->relFreq = relFreq;
@@ -15,11 +19,11 @@ void SawOscillator::process(float* buffer, unsigned int bufSize)
 	for (unsigned int i = 0; i < bufSize; i++)
 	{
 		temp = buffer[i];
-		buffer[i] = amplitude * (time / (3.1415f) - 1.f);
-		time += 2.f * 3.1415f * (this->baseFreq * this->relFreq + (temp * this->modIndex * this->baseFreq * this->relFreq)) / 44100.f;
-
-		if (time > 2 * 3.1415f)
-			time -= 2 * 3.1415f;
+		buffer[i] = amplitude * (time / (M_PI) - 1.f);
+		time += 2.f * M_PI * (this->baseFreq * this->relFreq + (temp * this->modIndex * this->baseFreq * this->relFreq)) / 44100.f;
+		
+		if (time > 2 * M_PI)
+			time -= 2 * M_PI;
 	}
 }
 
@@ -27,11 +31,11 @@ void SawOscillator::process(float* inBuffer, float* outBuffer, unsigned int bufS
 {
 	for (unsigned int i = 0; i < bufSize; i++)
 	{
-		outBuffer[i] = amplitude * (time / (3.1415f) - 1.f);
-		time += 2.f * 3.1415f * (this->baseFreq * this->relFreq + (inBuffer[i] * this->modIndex * this->baseFreq * this->relFreq)) / 44100.f;
+		outBuffer[i] = amplitude * (time / (M_PI) - 1.f);
+		time += 2.f * M_PI * (this->baseFreq * this->relFreq + (inBuffer[i] * this->modIndex * this->baseFreq * this->relFreq)) / 44100.f;
 
-		if (time > 2 * 3.1415f)
-			time -= 2 * 3.1415f;
+		if (time > 2 * M_PI)
+			time -= 2 * M_PI;
 	}
 }
 

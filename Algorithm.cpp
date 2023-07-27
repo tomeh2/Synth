@@ -6,6 +6,7 @@
 #include "SineOscillator.h"
 #include "SquareOscillator.h"
 #include "SawOscillator.h"
+#include "TriangleOscillator.h"
 #include "Tokenizer.h"
 #include "EnvelopeGenerator.h"
 
@@ -34,6 +35,10 @@ void Algorithm::createOperators(Patch* patch, std::vector<Block*>* blocks)
 				atof(patch->getOperatorParameter(i, "a").c_str()));
 		else if (patch->getOperatorParameter(i, "type").compare("saw") == 0)
 			osc = new SawOscillator(atof(patch->getOperatorParameter(i, "f").c_str()),
+				atof(patch->getOperatorParameter(i, "mindex").c_str()),
+				atof(patch->getOperatorParameter(i, "a").c_str()));
+		else if (patch->getOperatorParameter(i, "type").compare("triangle") == 0)
+			osc = new TriangleOscillator(atof(patch->getOperatorParameter(i, "f").c_str()),
 				atof(patch->getOperatorParameter(i, "mindex").c_str()),
 				atof(patch->getOperatorParameter(i, "a").c_str()));
 

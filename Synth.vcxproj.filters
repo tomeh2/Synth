@@ -93,6 +93,9 @@
     <ClCompile Include="SawOscillator.cpp">
       <Filter>Source Files\Generator</Filter>
     </ClCompile>
+    <ClCompile Include="TriangleOscillator.cpp">
+      <Filter>Source Files\Generator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine.h">
@@ -183,6 +186,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Oscillator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleOscillator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
