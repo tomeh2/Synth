@@ -2,15 +2,15 @@
 
 #include "Block.h"
 #include "EnvelopeGenerator.h"
-#include "SineOscillator.h"
+#include "Oscillator.h"
 
-class Operator : public Block
+class Operator : public Oscillator
 {
 private:
-	SineOscillator* oscillator;
+	Oscillator* oscillator;
 	EnvelopeGenerator* envGen;
 public:
-	Operator(SineOscillator* oscillator, EnvelopeGenerator* envGen) : oscillator(oscillator), envGen(envGen) {};
+	Operator(Oscillator* oscillator, EnvelopeGenerator* envGen) : oscillator(oscillator), envGen(envGen) {};
 	~Operator();
 
 	void trigger();

@@ -149,8 +149,10 @@
     <ClCompile Include="ParallelBlock.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="PatchFileLoader.cpp" />
+    <ClCompile Include="SawOscillator.cpp" />
     <ClCompile Include="SerialBlock.cpp" />
     <ClCompile Include="SineOscillator.cpp" />
+    <ClCompile Include="SquareOscillator.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
     <ClCompile Include="Voice.cpp" />
   </ItemGroup>
@@ -171,14 +173,17 @@
     <ClInclude Include="MidiMessage.h" />
     <ClInclude Include="Operator.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="Oscillator.h" />
     <ClInclude Include="OutputInterface.h" />
     <ClInclude Include="ParallelBlock.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Patch.h" />
     <ClInclude Include="PatchFileLoader.h" />
     <ClInclude Include="RtMidi.h" />
+    <ClInclude Include="SawOscillator.h" />
     <ClInclude Include="SerialBlock.h" />
     <ClInclude Include="SineOscillator.h" />
+    <ClInclude Include="SquareOscillator.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />
     <ClInclude Include="Voice.h" />

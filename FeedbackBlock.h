@@ -11,5 +11,6 @@ private:
 public:
 	void insert(Block* block);
 	void process(float* buffer, unsigned int bufSize);
+	void process(float* inBuffer, float* outBuffer, unsigned int bufSize);
 };
 

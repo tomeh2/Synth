@@ -4,6 +4,8 @@
 #include "ParallelBlock.h"
 #include "FeedbackBlock.h"
 #include "SineOscillator.h"
+#include "SquareOscillator.h"
+#include "SawOscillator.h"
 #include "Tokenizer.h"
 #include "EnvelopeGenerator.h"
 
@@ -20,9 +22,20 @@ void Algorithm::createOperators(Patch* patch, std::vector<Block*>* blocks)
 {
 	for (int i = 0; i < patch->getOperatorCount(); i++)
 	{
-		SineOscillator* osc = new SineOscillator(atof(patch->getOperatorParameter(i, "f").c_str()),
-			atof(patch->getOperatorParameter(i, "mindex").c_str()),
-			atof(patch->getOperatorParameter(i, "a").c_str()));
+		Oscillator* osc = nullptr;
+
+		if (patch->getOperatorParameter(i, "type").compare("sine") == 0)
+			osc = new SineOscillator(atof(patch->getOperatorParameter(i, "f").c_str()),
+				atof(patch->getOperatorParameter(i, "mindex").c_str()),
+				atof(patch->getOperatorParameter(i, "a").c_str()));
+		else if (patch->getOperatorParameter(i, "type").compare("square") == 0)
+			osc = new SquareOscillator(atof(patch->getOperatorParameter(i, "f").c_str()),
+				atof(patch->getOperatorParameter(i, "mindex").c_str()),
+				atof(patch->getOperatorParameter(i, "a").c_str()));
+		else if (patch->getOperatorParameter(i, "type").compare("saw") == 0)
+			osc = new SawOscillator(atof(patch->getOperatorParameter(i, "f").c_str()),
+				atof(patch->getOperatorParameter(i, "mindex").c_str()),
+				atof(patch->getOperatorParameter(i, "a").c_str()));
 
 		EnvelopeGenerator* env = nullptr;
 
@@ -35,7 +48,6 @@ void Algorithm::createOperators(Patch* patch, std::vector<Block*>* blocks)
 			{
 				float rate = atof(patch->getEnvelopeSegmentParam(envName, j, "rate").c_str());
 				float target = atof(patch->getEnvelopeSegmentParam(envName, j, "target").c_str());
-				float offset = atof(patch->getEnvelopeSegmentParam(envName, j, "offset").c_str());
 				EnvelopeGenerator::SegmentType segType;
 
 				if (patch->getEnvelopeSegmentParam(envName, j, "type").compare("exp") == 0)
@@ -46,7 +58,7 @@ void Algorithm::createOperators(Patch* patch, std::vector<Block*>* blocks)
 					segType = EnvelopeGenerator::SegmentType::LIN;
 				
 
-				env->addSegment(rate, target, offset, segType);
+				env->addSegment(rate, target, 0.f, segType);
 			}
 		}
 

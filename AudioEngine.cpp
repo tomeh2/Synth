@@ -71,7 +71,6 @@ void AudioEngine::mainLoop()
 	short* bufferShort = new short[this->bufSize];
 
 	float tick = 0;
-
 	while (this->in->isActive())
 	{
 		smf::MidiEvent midiEvent;
@@ -95,6 +94,10 @@ void AudioEngine::mainLoop()
 					Logger::log(Logger::INFO, msg);
 
 					this->channels[midiEvent.getChannel()]->setVolume(linToExpVolume(midiEvent.getP2() / 127.f));
+
+					// TEMPORARILY TURN OFF PERCUSSION INSTRUMENTS
+					if (midiEvent.getChannel() == 9)
+						this->channels[midiEvent.getChannel()]->setVolume(0.f);
 					break;
 				default:
 					break;

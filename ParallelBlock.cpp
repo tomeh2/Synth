@@ -9,6 +9,7 @@ void ParallelBlock::process(float* buffer, unsigned int bufSize)
 
 	for (std::vector<Block*>::iterator it = this->blocks.begin(); it != this->blocks.end(); it++)
 	{
+		memset(tempBuf1, 0, sizeof(float) * bufSize);
 		(*it)->process(buffer, tempBuf1, bufSize);
 
 		for (int i = 0; i < bufSize; i++)
@@ -25,5 +26,5 @@ void ParallelBlock::process(float* buffer, unsigned int bufSize)
 
 void ParallelBlock::insert(Block* block)
 {
-	this->blocks.insert(this->blocks.begin(), block);
+	this->blocks.insert(this->blocks.end(), block);
 }

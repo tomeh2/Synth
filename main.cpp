@@ -20,13 +20,13 @@ int main(int argc, char** argv)
 	std::map<std::string, Patch*> patches;
 	PatchFileLoader::loadPatchFile("C:/Users/PC/Desktop/test.patch", &patches);
 
-	patches.at("patch_feedback")->printInfo();
+	patches.at("patch_test")->printInfo();
 	printf("\n");
 	//patches.at("patch_2")->printInfo();
 
 	FileOutputInterface fout("C:/users/pc/desktop/data.raw");
 	FileInputInterface fin("C:/users/pc/desktop/midis/test.mid");
-	AudioEngine a(patches.at("patch_1"), 16, 32, &fin, &fout, (size_t) 128, 44100);
+	AudioEngine a(patches.at("patch_test"), 16, 32, &fin, &fout, (size_t) 128, 44100);
 
 	auto begin = std::chrono::high_resolution_clock::now();
 	a.start();

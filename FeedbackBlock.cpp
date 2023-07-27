@@ -13,3 +13,12 @@ void FeedbackBlock::process(float* buffer, unsigned int bufSize)
 		buffer[i] = blockOutput;
 	}
 }
+
+void FeedbackBlock::process(float* inBuffer, float* outBuffer, unsigned int bufSize)
+{
+	for (size_t i = 0; i < bufSize; i++)
+	{
+		this->block->process(&blockOutput, 1);
+		outBuffer[i] = blockOutput;
+	}
+}

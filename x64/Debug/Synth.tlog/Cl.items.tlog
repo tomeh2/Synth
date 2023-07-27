@@ -17,7 +17,9 @@ C:\Users\PC\source\repos\Synth\Synth\Options.cpp;C:\Users\PC\source\repos\Synth\
 C:\Users\PC\source\repos\Synth\Synth\ParallelBlock.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\ParallelBlock.obj
 C:\Users\PC\source\repos\Synth\Synth\Parser.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Parser.obj
 C:\Users\PC\source\repos\Synth\Synth\PatchFileLoader.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\PatchFileLoader.obj
+C:\Users\PC\source\repos\Synth\Synth\SawOscillator.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\SawOscillator.obj
 C:\Users\PC\source\repos\Synth\Synth\SerialBlock.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\SerialBlock.obj
 C:\Users\PC\source\repos\Synth\Synth\SineOscillator.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\SineOscillator.obj
+C:\Users\PC\source\repos\Synth\Synth\SquareOscillator.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\SquareOscillator.obj
 C:\Users\PC\source\repos\Synth\Synth\Tokenizer.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Tokenizer.obj
 C:\Users\PC\source\repos\Synth\Synth\Voice.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Voice.obj

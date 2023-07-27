@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Block.h"
+#include "Oscillator.h"
 
-class SineOscillator : public Block
+class SineOscillator : public Oscillator
 {
 private:
 	float relFreq, modIndex, amplitude, time;
