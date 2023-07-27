@@ -2,8 +2,10 @@
 #include "Logger.h"
 #include "SerialBlock.h"
 #include "ParallelBlock.h"
+#include "FeedbackBlock.h"
 #include "SineOscillator.h"
 #include "Tokenizer.h"
+#include "EnvelopeGenerator.h"
 
 #include <vector>
 #include <queue>
@@ -22,15 +24,35 @@ void Algorithm::createOperators(Patch* patch, std::vector<Block*>* blocks)
 			atof(patch->getOperatorParameter(i, "mindex").c_str()),
 			atof(patch->getOperatorParameter(i, "a").c_str()));
 
-		this->operators.insert(this->operators.end(), osc);
-
-		blocks->insert(blocks->end(), osc);
+		EnvelopeGenerator* env = nullptr;
 
 		std::string envName = patch->getOperatorParameter(i, "envelope");
 		if (envName.compare("") != 0)
 		{
+			env = new EnvelopeGenerator;
+			
+			for (int j = 0; j < patch->getEnvelopeSegmentsNum(envName); j++)
+			{
+				float rate = atof(patch->getEnvelopeSegmentParam(envName, j, "rate").c_str());
+				float target = atof(patch->getEnvelopeSegmentParam(envName, j, "target").c_str());
+				float offset = atof(patch->getEnvelopeSegmentParam(envName, j, "offset").c_str());
+				EnvelopeGenerator::SegmentType segType;
 
+				if (patch->getEnvelopeSegmentParam(envName, j, "type").compare("exp") == 0)
+					segType = EnvelopeGenerator::SegmentType::EXP;
+				else if (patch->getEnvelopeSegmentParam(envName, j, "type").compare("flat") == 0)
+					segType = EnvelopeGenerator::SegmentType::FLAT;
+				else if (patch->getEnvelopeSegmentParam(envName, j, "type").compare("lin") == 0)
+					segType = EnvelopeGenerator::SegmentType::LIN;
+				
+
+				env->addSegment(rate, target, offset, segType);
+			}
 		}
+
+		this->operators.insert(this->operators.end(), new Operator(osc, env));
+
+		blocks->insert(blocks->end(), osc);
 	}
 }
 
@@ -55,14 +77,32 @@ void Algorithm::create(Patch* patch)
 	this->algorithmBlock = block;
 }
 
-void Algorithm::setBaseFrequency(float freq)
+void Algorithm::release()
 {
 	for (auto it = this->operators.begin(); it != this->operators.end(); it++)
 	{
-		(*it)->setBaseFreq(freq);
+		(*it)->release();
 	}
 }
 
+void Algorithm::trigger(float freq)
+{
+	for (auto it = this->operators.begin(); it != this->operators.end(); it++)
+	{
+		(*it)->setBaseFrequency(freq);
+		(*it)->trigger();
+	}
+}
+
+bool Algorithm::isActive()
+{
+	bool isActive = false;
+	for (auto it = this->operators.begin(); it != this->operators.end(); it++)
+	{
+		isActive |= (*it)->isActive();
+	}
+	return isActive;
+}
 
 // NEEDS REWORK
 Block* Algorithm::create_rec(std::vector<Token*>* tokens, int* tokenIndex)
@@ -74,6 +114,8 @@ Block* Algorithm::create_rec(std::vector<Token*>* tokens, int* tokenIndex)
 		b = new SerialBlock();
 	else if (tokens->at(*tokenIndex)->getData().compare("p") == 0)
 		b = new ParallelBlock();
+	else if (tokens->at(*tokenIndex)->getData().compare("f") == 0)
+		b = new FeedbackBlock();
 	else
 	{
 		sprintf(msg, "Unrecognized algorithm construct %s", tokens->at(*tokenIndex)->getData().c_str());
@@ -94,7 +136,7 @@ Block* Algorithm::create_rec(std::vector<Token*>* tokens, int* tokenIndex)
 
 	do
 	{
-		if (tokens->at(*tokenIndex)->getData().compare("p") == 0 || tokens->at(*tokenIndex)->getData().compare("s") == 0)
+		if (tokens->at(*tokenIndex)->getData().compare("p") == 0 || tokens->at(*tokenIndex)->getData().compare("s") == 0 || tokens->at(*tokenIndex)->getData().compare("f") == 0)
 		{
 			Block* bRet = create_rec(tokens, tokenIndex);
 

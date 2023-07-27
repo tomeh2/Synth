@@ -32,20 +32,25 @@ void Channel::generateBlock(float* buffer, int bufSize)
 		}
 	}
 
+	freeInactiveVoices();
+
 	delete[] tempBuf;
 }
 
 void Channel::keyDown(int keyNum)
 {
-	if (this->activeVoices.find(keyNum) == this->activeVoices.end())
+	std::map<int, Voice*>::iterator it = this->activeVoices.begin();
+	if ((it = this->activeVoices.find(keyNum)) == this->activeVoices.end())
 	{
 		Voice* v = this->freeVoices.top();
 		this->freeVoices.pop();
 
-
-
 		v->keyDown(keyNum);
 		this->activeVoices.insert(std::pair<int, Voice*>(keyNum, v));
+	}
+	else
+	{
+		it->second->keyDown(keyNum);
 	}
 }
 
@@ -55,10 +60,21 @@ void Channel::keyUp(int keyNum)
 	{
 		Voice* v = this->activeVoices.at(keyNum);
 		v->keyUp();
-		this->activeVoices.erase(keyNum);
+	}
+}
 
-		// TEMPORARY
-		this->freeVoices.push(v);
+void Channel::freeInactiveVoices()
+{
+	for (auto it = this->activeVoices.cbegin(); it != this->activeVoices.cend();)
+	{
+		Voice* v = it->second;
+		if (!v->isActive())
+		{
+			this->activeVoices.erase(it++);
+			this->freeVoices.push(v);
+		}
+		else
+			it++;
 	}
 }
 

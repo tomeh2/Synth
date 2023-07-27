@@ -74,7 +74,7 @@ void AudioEngine::mainLoop()
 	for (int i = 0; i < 200000; i++)
 	{
 		smf::MidiEvent midiEvent;
-		while ((midiEvent = this->in->getNextEvent()).tick <= (int) tick)
+		while ((midiEvent = this->in->getNextEvent()).tick <= (int)tick)
 		{
 			if (midiEvent.isNoteOn())
 				this->channels[midiEvent.getChannel()]->keyDown(midiEvent.getKeyNumber());
@@ -89,6 +89,12 @@ void AudioEngine::mainLoop()
 
 			this->in->advance();
 		}
+		/*
+		if (i == 1000)
+			this->channels[0]->keyDown(40);
+
+		if (i == 50000)
+			this->channels[0]->keyUp(40);*/
 
 		tempGenSamples(buffer, this->bufSize);
 

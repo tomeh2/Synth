@@ -103,6 +103,19 @@ public:
 		envelopes.at(name)->envSegments.at(segmentId)->params.insert(std::pair<std::string, std::string>(paramName, val));
 	}
 
+	size_t getEnvelopeSegmentsNum(std::string envName)
+	{
+		return this->envelopes.at(envName)->envSegments.size();
+	}
+
+	std::string getEnvelopeSegmentParam(std::string envName, int segmentId, std::string paramName)
+	{
+		if (this->envelopes.at(envName)->envSegments.at(segmentId)->params.find(paramName) != this->envelopes.at(envName)->envSegments.at(segmentId)->params.end())
+			return this->envelopes.at(envName)->envSegments.at(segmentId)->params.at(paramName);
+		else
+			return "";
+	}
+
 	void printInfo()
 	{
 		printf("Patch Info\n");

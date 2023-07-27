@@ -4,6 +4,7 @@
 #include "Patch.h"
 #include "SineOscillator.h"
 #include "Tokenizer.h"
+#include "Operator.h"
 
 #include <string>
 #include <vector>
@@ -13,7 +14,7 @@ class Algorithm : public Block
 {
 private:
 	Block* algorithmBlock = nullptr;
-	std::vector<SineOscillator*> operators;
+	std::vector<Operator*> operators;
 	
 	Block* create_rec(std::vector<Token*>* tokens, int* tokenIndex);
 	void createOperators(Patch* patch, std::vector<Block*>* blocks);
@@ -21,5 +22,7 @@ public:
 	void process(float* buffer, unsigned int bufSize);
 	void create(Patch* patch);
 
-	void setBaseFrequency(float freq);
+	void trigger(float freq);
+	void release();
+	bool isActive();
 };

@@ -133,6 +133,8 @@
     <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Binasc.cpp" />
     <ClCompile Include="Channel.cpp" />
+    <ClCompile Include="EnvelopeGenerator.cpp" />
+    <ClCompile Include="FeedbackBlock.cpp" />
     <ClCompile Include="FileInputInterface.cpp" />
     <ClCompile Include="FileOutputInterface.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -142,6 +144,7 @@
     <ClCompile Include="MidiEventList.cpp" />
     <ClCompile Include="MidiFile.cpp" />
     <ClCompile Include="MidiMessage.cpp" />
+    <ClCompile Include="Operator.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="ParallelBlock.cpp" />
     <ClCompile Include="Parser.cpp" />
@@ -155,6 +158,8 @@
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Channel.h" />
+    <ClInclude Include="EnvelopeGenerator.h" />
+    <ClInclude Include="FeedbackBlock.h" />
     <ClInclude Include="FileInputInterface.h" />
     <ClInclude Include="FileOutputInterface.h" />
     <ClInclude Include="InputInterface.h" />
@@ -164,6 +169,7 @@
     <ClInclude Include="MidiEventList.h" />
     <ClInclude Include="MidiFile.h" />
     <ClInclude Include="MidiMessage.h" />
+    <ClInclude Include="Operator.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="OutputInterface.h" />
     <ClInclude Include="ParallelBlock.h" />

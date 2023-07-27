@@ -1,6 +1,8 @@
 C:\Users\PC\source\repos\Synth\Synth\AudioEngine.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\AudioEngine.obj
 C:\Users\PC\source\repos\Synth\Synth\Binasc.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Binasc.obj
 C:\Users\PC\source\repos\Synth\Synth\Channel.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Channel.obj
+C:\Users\PC\source\repos\Synth\Synth\EnvelopeGenerator.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\EnvelopeGenerator.obj
+C:\Users\PC\source\repos\Synth\Synth\FeedbackBlock.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\FeedbackBlock.obj
 C:\Users\PC\source\repos\Synth\Synth\FileInputInterface.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\FileInputInterface.obj
 C:\Users\PC\source\repos\Synth\Synth\FileOutputInterface.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\FileOutputInterface.obj
 C:\Users\PC\source\repos\Synth\Synth\Logger.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Logger.obj
@@ -10,6 +12,7 @@ C:\Users\PC\source\repos\Synth\Synth\MidiEvent.cpp;C:\Users\PC\source\repos\Synt
 C:\Users\PC\source\repos\Synth\Synth\MidiEventList.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\MidiEventList.obj
 C:\Users\PC\source\repos\Synth\Synth\MidiFile.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\MidiFile.obj
 C:\Users\PC\source\repos\Synth\Synth\MidiMessage.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\MidiMessage.obj
+C:\Users\PC\source\repos\Synth\Synth\Operator.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Operator.obj
 C:\Users\PC\source\repos\Synth\Synth\Options.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Options.obj
 C:\Users\PC\source\repos\Synth\Synth\ParallelBlock.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\ParallelBlock.obj
 C:\Users\PC\source\repos\Synth\Synth\Parser.cpp;C:\Users\PC\source\repos\Synth\Synth\x64\Debug\Parser.obj

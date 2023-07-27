@@ -18,5 +18,7 @@ public:
 	void generateBlock(float* buffer, int bufSize);
 	void keyDown(int keyNum);
 	void keyUp(int keyNum);
+
+	void freeInactiveVoices();
 };
 
