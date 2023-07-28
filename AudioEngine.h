@@ -16,8 +16,9 @@ private:
 	int sampleRate;
 	int usPerTick;
 	int usPerQuarter;
-
 	int BPM;
+	float* channelPanL;		//0.0 - Center | -1.0 - Left | 1.0 - Right
+	float* channelPanR;		//0.0 - Center | -1.0 - Left | 1.0 - Right
 
 	void mainLoop();
 	void calcUsPerTick();
@@ -28,6 +29,6 @@ public:
 
 	void start();
 
-	void tempGenSamples(float* buffer, size_t bufSize);
+	void tempGenSamples(float* bufferL ,float* bufferR, size_t bufSize);
 };
 

@@ -8,6 +8,8 @@ AudioEngine::AudioEngine(Patch* defaultPatch, int numChannels, int maxVoicesPerC
 	this->bufSize = bufSize;
 	this->sampleRate = sampleRate;
 	this->BPM = 120;
+	this->channelPanL = new float[numChannels];
+	this->channelPanR = new float[numChannels];
 	calcUsPerTick();
 
 	char msg[256];
@@ -25,6 +27,8 @@ AudioEngine::AudioEngine(Patch* defaultPatch, int numChannels, int maxVoicesPerC
 
 	for (int i = 0; i < numChannels; i++)
 	{
+		this->channelPanL[i] = 1.f;
+		this->channelPanR[i] = 1.f;
 		this->channels.push_back(new Channel(defaultPatch, maxVoicesPerChannel, i));
 	}
 }
@@ -36,23 +40,29 @@ AudioEngine::~AudioEngine()
 	{
 		delete this->channels.at(i);
 	}
+	delete[] channelPanL;
+	delete[] channelPanR;
 }
 
-void AudioEngine::tempGenSamples(float* buffer, size_t bufSize)
+void AudioEngine::tempGenSamples(float* bufferL, float* bufferR, size_t bufSize)
 {
 	float* tempBuf = new float[bufSize];
 
 	memset(tempBuf, 0, sizeof(float) * bufSize);
-	memset(buffer, 0, sizeof(float) * bufSize);
+	memset(bufferL, 0, sizeof(float) * bufSize);
+	memset(bufferR, 0, sizeof(float) * bufSize);
 
+	int j = 0;
 	for (auto it = this->channels.begin(); it != this->channels.end(); it++)
 	{
 		(*it)->generateBlock(tempBuf, bufSize);
 
 		for (int i = 0; i < bufSize; i++)
 		{
-			buffer[i] += tempBuf[i];
+			bufferL[i] += tempBuf[i] * this->channelPanL[j];
+			bufferR[i] += tempBuf[i] * this->channelPanR[j];
 		}
+		j++;
 	}
 
 	delete[] tempBuf;
@@ -67,8 +77,9 @@ void AudioEngine::start()
 void AudioEngine::mainLoop()
 {
 	char msg[256];
-	float* buffer = new float[this->bufSize];
-	short* bufferShort = new short[this->bufSize];
+	float* bufferL = new float[this->bufSize];
+	float* bufferR = new float[this->bufSize];
+	short* bufferShort = new short[2 * this->bufSize];
 
 	float tick = 0;
 	while (this->in->isActive())
@@ -99,6 +110,13 @@ void AudioEngine::mainLoop()
 					if (midiEvent.getChannel() == 9)
 						this->channels[midiEvent.getChannel()]->setVolume(0.f);
 					break;
+				case 0x0A:
+					sprintf(msg, "[CONTROLLER] Channel: %d | Pan: %d", midiEvent.getChannel(), midiEvent.getP2());
+					Logger::log(Logger::INFO, msg);
+
+					this->channelPanL[midiEvent.getChannel()] = midiEvent.getP2() < 64 ? 1.f : -1.f / 64.f * midiEvent.getP2() + 2.f;
+					this->channelPanR[midiEvent.getChannel()] = midiEvent.getP2() > 64 ? 1.f : 1.f / 64.f * midiEvent.getP2();
+					break;
 				default:
 					break;
 				}
@@ -110,14 +128,15 @@ void AudioEngine::mainLoop()
 			this->in->advance();
 		}
 
-		tempGenSamples(buffer, this->bufSize);
+		tempGenSamples(bufferL, bufferR, this->bufSize);
 
-		for (int i = 0; i < this->bufSize; i++)
+		for (int i = 0; i < 2 * this->bufSize; i += 2)
 		{
-			bufferShort[i] = (short) (buffer[i] * 2000);
+			bufferShort[i] = (short) (bufferL[i >> 1] * 2000);
+			bufferShort[i + 1] = (short) (bufferR[i >> 1] * 2000);
 		}
 
-		this->out->write(bufferShort, this->bufSize);
+		this->out->write(bufferShort, this->bufSize * 2);
 
 		//
 		//sprintf(msg, "Tick = %f", tick);
@@ -127,7 +146,8 @@ void AudioEngine::mainLoop()
 		//tick += 1;
 	}
 
-	delete[] buffer;
+	delete[] bufferL;
+	delete[] bufferR;
 	delete[] bufferShort;
 }
 

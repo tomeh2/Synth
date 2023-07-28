@@ -18,7 +18,7 @@
 int main(int argc, char** argv)
 {
 	std::map<std::string, Patch*> patches;
-	PatchFileLoader::loadPatchFile("C:/Users/PC/Desktop/test.patch", &patches);
+	PatchFileLoader::loadPatchFile("test.patch", &patches);
 
 	patches.at("patch_test")->printInfo();
 	printf("\n");
